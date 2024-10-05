@@ -8,8 +8,8 @@
     />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     
-    <title>{% block title %} {{ titlepage }}DostournaChain{% endblock %}</title>
-    <link rel="icon" href="{{asset('assets/images/site_logo/iconlogo.png')}}" />
+    <title>{% block title %} {{ titlepage }}Dostourna{% endblock %}</title>
+    <link rel="icon" href="{{asset('assets/images/site_logo/logotemp.png')}}" />
     {% block css %}
     
     <!-- Fraimwork - CSS Include -->
@@ -53,7 +53,7 @@
               <div class="site_logo">
                 <a class="site_link" href="{{ path('app_home') }}">
                   <img
-                    src="{{asset('assets/images/site_logo/logo.png')}}"
+                    src="{{asset('assets/images/site_logo/logotemp.png')}}"
                     alt="Logo"
                     width="150" height="150"
                   />
@@ -71,20 +71,20 @@
                 >
                     <ul class="main_menu_list unordered_list">
                     <li{% if (part==1)%}  class="active"{% endif %}>
-                        <a class="nav-link" href="{{ path('app_home') }}"> <i class="fa fa-home" aria-hidden="true"></i> Home</a>
+                        <a class="nav-link" href="{{ path('app_home') }}"> <i class="fa fa-home" aria-hidden="true"></i> Accueil</a>
                     </li>
                     <li{% if (part==2)%}  class="active"{% endif %}>
-                        <a class="nav-link" href="{{ path('app_home') }}"> <i class="fa-solid fa-book-open-reader"></i> About Us </a>
+                        <a class="nav-link" href="{{ path('app_home') }}"> <i class="fa-solid fa-book-open-reader"></i> À Propos </a>
                     </li>
                     <li{% if (part==3)%}  class="active"{% endif %}>
-                        <a class="nav-link" href="{{ path('app_home') }}"> <i class="fa-solid fa-cart-shopping"></i> Projects</a>  
+                        <a class="nav-link" href="{{ path('app_home') }}"> <i class="fa-solid fa-rectangle-history-circle-plus"></i> Nos Projets </a>  
                     </li>
                      <li{% if (part==4)%}  class="active"{% endif %}>
-                        <a class="nav-link" href="{{ path('app_home') }}"> <i class="fa-solid fa-cart-shopping"></i> Funding</a>  
+                        <a class="nav-link" href="{{ path('app_home') }}"> <i class="fa-solid fa-coins"></i> Financement</a>  
                     </li>
                     <li{% if (part==5)%}  class="active"{% endif %}>
                         <a class="nav-link" href="{{ path('app_home') }}"
-                        ><i class="fa-solid fa-comments"></i> Contact Us</a
+                        ><i class="fa-solid fa-comments"></i> Contact</a
                         >
                     </li>
                     </ul>
@@ -123,8 +123,8 @@
                   <!-- Login Button for Guests -->
                   <li>
                     <a class="btn btn-primary" href="#">
-                      <span class="btn_text" data-text="🤯">
-                      Login
+                      <span class="btn_text" data-text="Maintenant 🫶">
+                      Rejoignez-nous
                       </span>
                       <span class="btn_icon">
                         <i class="fa-solid fa-arrow-up-right"></i>
@@ -196,15 +196,15 @@
 
       <!-- Site Footer - Start
       ================================================== -->
-      <footer class="site_footer bg_primary ">
-        <div class="container">
+      <footer class="site_footer bg_primary  ">
+        <div class="container ">
           <div class="site_footer_content">
             <div class="row align-items-center">
               <div class="col-lg-3">
                 <div class="site_logo">
                   <a class="site_link" href="{{ path('app_home') }}">
                     <img
-                      src="{{asset('assets/images/site_logo/logo.png')}}"
+                      src="{{asset('assets/images/site_logo/logotemp.png')}}"
                       alt=" Logo"
                       width="200" height="200"
                     />
@@ -212,17 +212,17 @@
                 </div>
               </div>
               <div class="col-lg-6">
-                <ul class="info_list unordered_list justify-content-center">
-                  <li>
-                    <a href="{{ path('app_home') }}">
+                <ul class="info_list unordered_list justify-content-center" >
+                  <li >
+                    <a href="{{ path('app_home') }}" style="color: var(--bs-dark);">
                       <span class="info_icon">
                         <i class="fa-solid fa-circle"></i>
                       </span>
-                      <span class="info_text">Home</span>
+                      <span class="info_text" >Home</span>
                     </a>
                   </li>
                   <li>
-                    <a href="{{ path('app_home') }}">
+                    <a href="{{ path('app_home') }}" style="color: var(--bs-dark);">
                       <span class="info_icon">
                         <i class="fa-solid fa-circle"></i>
                       </span>
@@ -230,7 +230,7 @@
                     </a>
                   </li>
                   <li>
-                    <a href="{{ path('app_home') }}">
+                    <a href="{{ path('app_home') }}" style="color: var(--bs-dark);">
                       <span class="info_icon">
                         <i class="fa-solid fa-circle"></i>
                       </span>
@@ -238,14 +238,14 @@
                     </a>
                   </li>
                   <li>
-                    <a href="{{ path('app_home', {'page':1}) }}">
+                    <a href="{{ path('app_home', {'page':1}) }}" style="color: var(--bs-dark);">
                       <span class="info_icon">
                         <i class="fa-solid fa-circle"></i>
                       </span>
                       <span class="info_text">Blog</span>
                     </a>
                   </li>
-                    <a href="{{ path('app_home') }}">
+                    <a href="{{ path('app_home') }}" style="color: var(--bs-dark);">
                       <span class="info_icon">
                         <i class="fa-solid fa-circle"></i>
                       </span>

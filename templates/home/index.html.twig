@@ -1,1 +1,263 @@
 {% extends 'base.html.twig' %}
+{% block body %}
+
+        {% block introSection %} 
+        <section class="hero_section decoration_wrapper">
+            <div class="container">
+              <div class="row align-items-center">
+                <div class="col-lg-6">
+                  <div class="hero_content_wrap" >
+                    <div style="padding: 30px;">
+                    <h1 class="heading_text">
+                     Bienvenue chez Dostourna
+                    </h1>
+                    <h4 style="color: var(--bs-primary);">
+                      Soutenez les Jeunes Innovateurs d'Aujourd'hui, Créez les Emplois de Demain
+                    </h4>
+                    <p class="heading_description" >
+                     Chez <b> Dostourna </b>, nous croyons en un  <b> avenir </b> où chaque <b>jeune </b> porteur de projet peut transformer ses idées en réalité. <br>
+                     Grâce à notre plateforme, vous pouvez aider ces <b>innovateurs </b> à trouver le <b>financement </b> nécessaire via des <b>dons </b> en <b> cryptomonnaie </b> 
+                     et ainsi créer de <b>nouveaux postes </b> dans des secteurs tels que <b>l'éducation </b>, la  <b>culture </b>, et bien plus encore.
+                    </p>
+                    
+                    <ul class="btns_group unordered_list">
+                      <li>
+                        <a class="btn btn-primary" href="#">
+                          <span class="btn_text" data-text="Maintenant">
+                              Soutenez un Projet
+                          </span>
+                          <span class="btn_icon">
+                            <i class="fa-solid fa-arrow-up-right"></i>
+                          </span>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="btn btn-outline-secondary" href="#">
+                          <span class="btn_text" data-text="Dostourna">
+                            En savoir plus
+                          </span>
+                          <span class="btn_icon">
+                            <i class="fa-solid fa-arrow-up-right"></i>
+                          </span>
+                        </a>
+                      </li>
+                    </ul>
+                    </div>               
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                  <div >
+                    <img
+                    src="{{asset('assets/images/gallery/fond1.png')}}"
+                      alt="fond"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="decoration_item shape_blur_shadow"></div>
+            <div class="decoration_item shape_leaf">
+              <img
+                src="{{asset('assets/images/shapes/shape_leaf_left_top.svg')}}"
+                alt="Shape Leaf - Help Me Balance - Psychotherapist Site Template"
+              />
+            </div>
+          </section>
+          {% endblock %}
+
+          {% block MapProjets %} 
+          <section class="service_section section_space_lg bg_primary_light">
+            <div class="container">
+              <div class="section_heading text-center">
+                <h2 class="section_heading_text">Carte Interactive des Projets</h2>
+                <p class="section_heading_description ">
+                      Explorez les Projets qui Façonnent l’Avenir
+                </p>
+              </div>
+              <div class="btn_wrap pb-2 text-center">
+                <a class="btn btn-primary" href="#">
+                  <span class="btn_text" data-text="Un pas vers l'avenir">
+                    Participer à un Projet
+                  </span>
+                  <span class="btn_icon">
+                    <i class="fa-solid fa-arrow-up-right"></i>
+                  </span>
+                </a>
+              </div>
+            </div>
+          </section>
+          {% endblock %} 
+   
+          {% block testimonial %} 
+          <section class="testimonial_section section_space_lg">
+            <div class="container">
+              <div class="section_heading text-center">
+                <h2 class="section_heading_text">Les Voix des Jeunes Entrepreneurs Inspirés </h2>
+                <p class="section_heading_description mb-0">
+                  Ils Ont Transformé Leur Avenir Grâce à Vous 
+                </p>
+              </div>
+  
+              <div class="testimonial_carousel">
+                <div class="carousel_2col row" data-slick='{"arrows":false}'>
+                  <div class="carousel_item col-">
+                    <div class="testimonial_item">
+                      <ul class="rating_star unordered_list">
+                        <li><i class="fa-solid fa-star"></i></li>
+                        <li><i class="fa-solid fa-star"></i></li>
+                        <li><i class="fa-solid fa-star"></i></li>
+                        <li><i class="fa-solid fa-star"></i></li>
+                      </ul>
+                      <div class="author_box">
+                        <div class="author_box_image">
+                          <img
+                          src="{{asset('assets/images/gallery/1.png')}}"
+                          alt="Reviewer Image"
+                          />
+                        </div>
+                        <div class="author_box_content">
+                          <h3 class="author_box_name">Leila Ben Salah</h3>
+                          <span class="author_box_designation">Fondatrice d’un Centre d’Éducation Numérique</span>
+                        </div>
+                      </div>
+                      <p class="mb-0">
+                        "Grâce au soutien des donateurs via Dostourna, j'ai pu créer un centre d'éducation numérique dans ma ville.<br> 
+                        Aujourd'hui, nous formons des jeunes aux métiers de demain, en alliant apprentissage humain et technologies comme l'IA.<br>
+                         Cela a permis de créer des emplois pour des éducateurs, des techniciens et des conseillers en insertion professionnelle."
+                      </p>
+                    </div>
+                  </div>
+                  <div class="carousel_item col-">
+                    <div class="testimonial_item">
+                      <ul class="rating_star unordered_list">
+                        <li><i class="fa-solid fa-star"></i></li>
+                        <li><i class="fa-solid fa-star"></i></li>
+                        <li><i class="fa-solid fa-star"></i></li>
+                        <li><i class="fa-solid fa-star"></i></li>
+                        <li><i class="fa-solid fa-star"></i></li>
+                      </ul>
+                      <div class="author_box">
+                        <div class="author_box_image">
+                          <img
+                          src="{{asset('assets/images/gallery/2.png')}}"
+                          alt="Reviewer Image"
+                          />
+                        </div>
+                        <div class="author_box_content">
+                          <h3 class="author_box_name">Ahmed Kacem</h3>
+                          <span class="author_box_designation">Entrepreneur dans l’Économie Circulaire</span>
+                        </div>
+                      </div>
+                      <p class="mb-0">
+                        "Avec l'aide de Dostourna, mon projet de startup dans l'économie circulaire a pu voir le jour. <br>
+                         Nous récupérons des matériaux et les réutilisons pour créer des objets du quotidien. <br>
+                        Non seulement cela réduit les déchets, mais nous avons aussi embauché dix jeunes en contrat d'apprentissage"
+                      </p>
+                    </div>
+                  </div>
+                  <div class="carousel_item col-">
+                    <div class="testimonial_item">
+                      <ul class="rating_star unordered_list">
+                        <li><i class="fa-solid fa-star"></i></li>
+                        <li><i class="fa-solid fa-star"></i></li>
+                        <li><i class="fa-solid fa-star"></i></li>
+                        <li><i class="fa-solid fa-star"></i></li>
+                      </ul>
+                      <div class="author_box">
+                        <div class="author_box_image">
+                          <img
+                          src="{{asset('assets/images/gallery/3.png')}}"
+                          alt="Reviewer Image"
+                          />
+                        </div>
+                        <div class="author_box_content">
+                          <h3 class="author_box_name">Fatma Jaziri </h3>
+                          <span class="author_box_designation">Conservatrice d’un Musée Interactif</span>
+                        </div>
+                      </div>
+                      <p class="mb-0">
+                        "Dostourna a été un véritable catalyseur pour notre musée interactif sur les innovations technologiques. <br>
+                         Grâce aux dons en cryptomonnaie, nous avons pu concevoir des expositions immersives et engager des guides spécialisés pour expliquer l’impact de la technologie dans notre quotidien."
+                      </p>
+                    </div>
+                  </div>
+                  <div class="carousel_item col-">
+                    <div class="testimonial_item">
+                      <ul class="rating_star unordered_list">
+                        <li><i class="fa-solid fa-star"></i></li>
+                        <li><i class="fa-solid fa-star"></i></li>
+                        <li><i class="fa-solid fa-star"></i></li>
+                        <li><i class="fa-solid fa-star"></i></li>
+                      </ul>
+                      <div class="author_box">
+                        <div class="author_box_image">
+                          <img
+                          src="{{asset('assets/images/gallery/4.png')}}"
+                          alt="Reviewer Image"
+                          />
+                        </div>
+                        <div class="author_box_content">
+                          <h3 class="author_box_name">Rami Toumi</h3>
+                          <span class="author_box_designation">Responsable d’un Projet d’Insertion Sociale</span>
+                        </div>
+                      </div>
+                      <p class="mb-0">
+                        "Mon projet visait à accompagner des jeunes en difficulté à travers un programme d'insertion professionnelle. <br>
+                        Avec les financements collectés via Dostourna, nous avons pu lancer des formations dans l’artisanat et l’économie numérique. <br>
+                        Cela a créé des perspectives d’avenir pour des dizaines de jeunes."
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          {% endblock %}
+            {% block joindre %}
+           <section class="consultation_section " style="margin-bottom: 5rem;">
+            <div class="container">
+              <div class="consultation_form bg_primary_light decoration_wrapper">
+                <div class="section_heading text-center">
+                  <h2 class="section_heading_text mb-0">
+                    Soutenez l'Innovation et l'Emploi 
+                  </h2>
+                </div>
+                <div class="row justify-content-center">
+                  <div class="col-lg-4"></div>
+                </div>
+                <div class="row justify-content-center">
+                  <div class="col-lg-7">
+                     
+                     <p class="heading_description" >Avec un petit geste, vous pouvez aider les jeunes à concrétiser leurs projets et à créer des opportunités d'emploi durables. 
+                     Faites un don en cryptomonnaie dès aujourd'hui. </p>
+                    </div>
+                   <div class="row justify-content-center">
+                        <div class="col-12 text-center">
+                            <div class="d-flex justify-content-center">
+                            <a class="btn btn-primary " href="#" style="margin-right: 1rem;">
+                                <span class="btn_text" data-text="maintenant">
+                                    Faire un Don
+                                </span>
+                                <span class="btn_icon">
+                                    <i class="fa-solid fa-arrow-up-right"></i>
+                                </span>
+                            </a>
+                            <a class="btn btn-outline-secondary" href="#" style="margin-left: 1rem;">
+                            <span class="btn_text" data-text="votre premier pas">
+                                Participer à un Projet
+                            </span>
+                            <span class="btn_icon">
+                                <i class="fa-solid fa-arrow-up-right"></i>
+                            </span>
+                            </a>
+                            </div>
+                        </div>
+                        </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          
+            {% endblock %}
+{% endblock %}

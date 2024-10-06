@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\InvestmentsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: InvestmentsRepository::class)]
@@ -44,6 +45,9 @@ class Investments
 
     #[ORM\ManyToOne(inversedBy: 'investments')]
     private ?Category $categorie = null;
+
+    #[ORM\Column]
+    private ?float $currentFunding = null;
 
     public function getId(): ?int
     {
@@ -166,6 +170,18 @@ class Investments
     public function setCategorie(?Category $categorie): static
     {
         $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    public function getCurrentFunding(): ?float
+    {
+        return $this->currentFunding;
+    }
+
+    public function setCurrentFunding(float $currentFunding): static
+    {
+        $this->currentFunding = $currentFunding;
 
         return $this;
     }

@@ -74,7 +74,7 @@
                         <a class="nav-link" href="{{ path('app_home') }}"> <i class="fa fa-home" aria-hidden="true"></i> Accueil</a>
                     </li>
                     <li{% if (part==2)%}  class="active"{% endif %}>
-                        <a class="nav-link" href="{{ path('app_home') }}"> <i class="fa-solid fa-book-open-reader"></i> À Propos </a>
+                        <a class="nav-link" href="{{ path('app_about') }}"> <i class="fa-solid fa-book-open-reader"></i> À Propos </a>
                     </li>
                     <li{% if (part==3)%}  class="active"{% endif %}>
                         <a class="nav-link" href="{{ path('app_home') }}"> <i class="fa-solid fa-rectangle-history-circle-plus"></i> Nos Projets </a>  
@@ -161,7 +161,7 @@
                   class="breadcrumb_nav unordered_list justify-content-lg-end justify-content-center"
                 >
                 {% block pageBannerurlretour %}
-                  <li><a href="{{ path('app_home') }}">Home</a></li>
+                  <li><a href="{{ path('app_home') }}">Accueil</a></li>
                   <li>{{ title }}</li>
                   {% endblock %}
                 </ul>
@@ -218,7 +218,15 @@
                       <span class="info_icon">
                         <i class="fa-solid fa-circle"></i>
                       </span>
-                      <span class="info_text" >Home</span>
+                      <span class="info_text" >Acceuil</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="{{ path('app_about') }}" style="color: var(--bs-dark);">
+                      <span class="info_icon">
+                        <i class="fa-solid fa-circle"></i>
+                      </span>
+                      <span class="info_text">À Propos</span>
                     </a>
                   </li>
                   <li>
@@ -226,15 +234,7 @@
                       <span class="info_icon">
                         <i class="fa-solid fa-circle"></i>
                       </span>
-                      <span class="info_text">About</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="{{ path('app_home') }}" style="color: var(--bs-dark);">
-                      <span class="info_icon">
-                        <i class="fa-solid fa-circle"></i>
-                      </span>
-                      <span class="info_text">Projects</span>
+                      <span class="info_text">Nos projets</span>
                     </a>
                   </li>
                   <li>
@@ -242,14 +242,15 @@
                       <span class="info_icon">
                         <i class="fa-solid fa-circle"></i>
                       </span>
-                      <span class="info_text">Blog</span>
+                      <span class="info_text">Financement</span>
                     </a>
                   </li>
+                  <li>
                     <a href="{{ path('app_home') }}" style="color: var(--bs-dark);">
                       <span class="info_icon">
                         <i class="fa-solid fa-circle"></i>
                       </span>
-                      <span class="info_text">Contacts</span>
+                      <span class="info_text">Contact</span>
                     </a>
                   </li>
                 </ul>

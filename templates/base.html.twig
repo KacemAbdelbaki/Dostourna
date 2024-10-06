@@ -29,6 +29,12 @@
     <link rel="stylesheet" href="{{ asset('assets/css/odometer.min.css') }}" type="text/css">
     <!-- Custom - CSS Include -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" type="text/css">
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
 
     {% endblock %}
 </head>
@@ -77,16 +83,14 @@
                         <a class="nav-link" href="{{ path('app_about') }}"> <i class="fa-solid fa-book-open-reader"></i> À Propos </a>
                     </li>
                     <li{% if (part==3)%}  class="active"{% endif %}>
-                        <a class="nav-link" href="{{ path('app_home') }}"> <i class="fa-solid fa-rectangle-history-circle-plus"></i> Nos Projets </a>  
+                        <a class="nav-link" href="{{ path('app_projects', {'page':1}) }}"> <i class="fa-solid fa-rectangle-history-circle-plus"></i> Nos Projets </a>  
                     </li>
-                     <li{% if (part==4)%}  class="active"{% endif %}>
+                     {# <li{% if (part==4)%}  class="active"{% endif %}>
                         <a class="nav-link" href="{{ path('app_home') }}"> <i class="fa-solid fa-coins"></i> Financement</a>  
-                    </li>
-                    <li{% if (part==5)%}  class="active"{% endif %}>
-                        <a class="nav-link" href="{{ path('app_home') }}"
-                        ><i class="fa-solid fa-comments"></i> Contact</a
-                        >
-                    </li>
+                    </li> #}
+                    {# <li{% if (part==4)%}  class="active"{% endif %}>
+                        <a class="nav-link" href="{{ path('app_home') }}"> <i class="fa-solid fa-comments"></i> Contact</a>
+                    </li> #}
                     </ul>
                 </div>
                 </nav>
@@ -230,29 +234,29 @@
                     </a>
                   </li>
                   <li>
-                    <a href="{{ path('app_home') }}" style="color: var(--bs-dark);">
+                    <a href="{{ path('app_projects', {'page':1}) }}" style="color: var(--bs-dark);">
                       <span class="info_icon">
                         <i class="fa-solid fa-circle"></i>
                       </span>
                       <span class="info_text">Nos projets</span>
                     </a>
                   </li>
-                  <li>
+                  {# <li>
                     <a href="{{ path('app_home', {'page':1}) }}" style="color: var(--bs-dark);">
                       <span class="info_icon">
                         <i class="fa-solid fa-circle"></i>
                       </span>
                       <span class="info_text">Financement</span>
                     </a>
-                  </li>
-                  <li>
+                  </li> #}
+                  {# <li>
                     <a href="{{ path('app_home') }}" style="color: var(--bs-dark);">
                       <span class="info_icon">
                         <i class="fa-solid fa-circle"></i>
                       </span>
                       <span class="info_text">Contact</span>
                     </a>
-                  </li>
+                  </li> #}
                 </ul>
               </div>
               <div class="col-lg-3">

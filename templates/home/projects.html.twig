@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+{% block body %} 
+        <section class="blog_section ">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-8">
+                  <div class="row">
+                   {% if projets is  empty  %}
+                     
+                        <div style="text-align: center;">
+                          <img width="700" height="500"
+                          src="{{asset('assets/images/gallery/empty.png')}}"
+                            alt="Talking Minds - Psychotherapist Site Template"
+                          />
+                        </div>
+                           <div class="section_heading text-center">
+                          <h2 class="section_heading_text">Il n'y a pas encore de projets disponibles.</h2>
+                          <h3>Pourquoi ne pas créer le vôtre et faire la différence?</h3>
+                          {% if is_granted('IS_AUTHENTICATED_REMEMBERED')  %}
+                          <a class="btn-link" href="{{ path('app_home') }}">
+                                    <h2 class="btn_text " style="color: var(--bs-primary);">Créer un Projet</h2>
+                                    <span class="btn_icon"
+                                      ><i class="fa-solid fa-arrow-up-right"></i
+                                    ></span>
+                                  </a>
+                          {% else %}
+                          <a class="btn-link" href="{{ path('app_home') }}">
+                            <h2 class="btn_text" style="color: var(--bs-primary);">Connectez-vous pour créer un projet</h2>
+                            <span class="btn_icon"
+                              ><i class="fa-solid fa-right-to-bracket"></i
+                            ></span>
+                          </a>
+                         {% endif %}
+                        </div>
+                     {% else %}
+                    {% for projet in projets %}
+                        <div class="col-md-6">
+                        <div class="blog_item">
+                        <div class="blog_image" id="map{{ projet.id }}" style="width: 900px; height: 450px;position: relative; left: 50%; transform: translateX(-50%)">
+                        </div>             
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function() {
+                                var latitude = {{ projet.latitude }};
+                                var longitude = {{ projet.longitude }};
+                                var projectName = "{{ projet.name }}"; 
+
+                                var map = L.map('map{{ projet.id }}').setView([latitude, longitude], 15);
+                                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                    maxZoom: 19,
+                                    attribution: '© OpenStreetMap'
+                                }).addTo(map);
+
+                                var marker = L.marker([latitude, longitude]).addTo(map)
+                                    .bindPopup(projectName + " sera localisé ici.", { offset: L.point(0, -20) });
+                                marker.openPopup();
+
+                                // Event listener for zoom changes
+                                map.on('zoomend', function() {
+                                    // Recenter the map after zooming
+                                    map.setView([latitude, longitude], map.getZoom());
+                                });
+                            });
+                        </script>
+                        <div class="blog_content">
+                            <ul class="post_category unordered_list">
+                            <li><a href="{{ path('app_home') }}">{{ projet.categorie.name }}</a></li>
+                            </ul>
+                            <ul class="post_meta unordered_list">
+                            <li>{{projet.user.name}} <i class="fa-solid fa-user"></i></li>
+                            <li>{{projet.type}} <i class="fa-solid fa-list-check"></i></li>
+                            <li>{{projet.status}} <i class="fa-regular fa-calendar-clock"></i></li>
+                            </ul>
+                            <ul class="post_meta unordered_list">
+                            <li><a href="#!">
+                                <progress  value="{{ projet.currentFunding }}" max="{{ projet.price }}" >{{ projet.currentFunding }}%
+                                </progress>
+                                {{ projet.currentFunding }} / {{ projet.price }} <i class="fa-solid fa-money-bill-trend-up"></i>
+                            </a></li>
+                            </ul>
+                            <h3 class="item_title">
+                            <a href="{{ path('app_home') }}">
+                                {{ projet.name }}
+                            </a>
+                            </h3>
+                            <p>
+                            {{ projet.description|slice(0, 40) ~ (projet.description|length > 40 ? '...' : '') }}
+                            </p>
+                            <a class="btn-link" href="blog_details.html">
+                            <span class="btn_text">Read More</span>
+                            <span class="btn_icon"
+                                ><i class="fa-solid fa-arrow-up-right"></i
+                            ></span>
+                            </a>
+                        </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                  </div>
+                </div>
+            </div>
+            </div>
+          </section>
+
+          
+{% endblock %}

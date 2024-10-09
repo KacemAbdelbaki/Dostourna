@@ -1,4 +1,13 @@
 {% extends 'base.html.twig' %}
+  {% block pageBannerurlretour %}
+  {% if cat is not null %}
+                <li><a href="{{ path('app_projects', {'cat': 0 ,'page': 1}) }}">Tous Les Projets</a></li>
+                <li>{{ cat.name }}</li>
+  {% else %}
+                <li><a href="{{ path('app_home') }}">Accueil</a></li>
+                <li>{{ title }}</li>
+  {% endif %}              
+   {% endblock %}
 {% block body %} 
         <section class="blog_section ">
             <div class="container">
@@ -63,7 +72,7 @@
                         </script>
                         <div class="blog_content">
                             <ul class="post_category unordered_list">
-                            <li><a href="{{ path('app_home') }}">{{ projet.categorie.name }}</a></li>
+                            <li><a href="{{ path('app_projects', {'cat':  projet.categorie.id ,'page': 1}) }}">{{ projet.categorie.name }}</a></li>
                             </ul>
                             <ul class="post_meta unordered_list">
                             <li>{{projet.user.name}} <i class="fa-solid fa-user"></i></li>
@@ -85,10 +94,16 @@
                             <p>
                             {{ projet.description|slice(0, 40) ~ (projet.description|length > 40 ? '...' : '') }}
                             </p>
-                            <a class="btn-link" href="blog_details.html">
-                            <span class="btn_text">Read More</span>
+                            <a class="btn-link" href="{{ path('app_home') }}">
+                            <span class="btn_text">En savoir plus</span>
                             <span class="btn_icon"
                                 ><i class="fa-solid fa-arrow-up-right"></i
+                            ></span>
+                            </a>
+                            <a class="btn-link" href="{{ path('app_home') }}" style="margin-left: 20px;">
+                            <span class="btn_text">Faire Un Don</span>
+                            <span class="btn_icon"
+                                ><i class="fa-solid fa-plus"></i
                             ></span>
                             </a>
                         </div>
@@ -143,8 +158,8 @@
                         {% set sortedCategories = categories|sort((a, b) => (a.investments|length) < (b.investments|length)) %}
                         {% for categorie in sortedCategories %}
                         <li>
-                          <a href="{{ path('app_projects', { 'page': 1}) }}">
-                            <span class="category_name">{{categorie.name}}</span>                     
+                          <a href="{{ path('app_projects', { 'cat': categorie.id ,'page': 1}) }}">
+                            <span class="category_name">{% if cat != null and categorie.id == cat.id %}<mark>{{categorie.name }}</mark>{% else %}{{categorie.name }} {% endif %}</span>                     
                             {% if categorie.investments|length == 0 %}
                             <span class="category_counter">Nouvelle</span>
                             {% else %}
@@ -170,7 +185,7 @@
                         <li>
                           <div class="blog_item_small">
                             <div class="blog_image">
-                              <a class="blog_image_wrap" href="{{  path('app_projects', { 'page': 1}) }}">
+                              <a class="blog_image_wrap" href="{{  path('app_projects', { 'cat': 0 ,'page': 1}) }}">
                                 <img
                                  src="{{asset('assets/images/gallery/' ~ random(1,5) ~ '.png')}}"
                                 alt="HelpMeBalance"
@@ -179,7 +194,7 @@
                             </div>
                             <div class="blog_content">
                               <h3 class="item_title">
-                                <a href="{{  path('app_projects', { 'page': 1}) }}">
+                                <a href="{{  path('app_projects', { 'cat': 0 ,'page': 1}) }}">
                                     {{ projet.name }}
                                 </a>
                               </h3>
@@ -212,7 +227,7 @@
                   {% if (totalPages>0)%}
                     {% for page in range(1, totalPages) %}
                     <li {% if curentPage == page %} class="active" {% endif %}>
-                        <a href="{{ path('app_projects', { 'page': page})  }}">{{ page }}</a>
+                        <a href="{{ path('app_projects', { 'cat': (cat is null) ? 0 : cat.id ,'page': page})  }}">{{ page }}</a>
                     </li>
                     {% endfor %}
                     {% endif %}

@@ -16,18 +16,21 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class ProjectsController extends AbstractController
 {
-    #[Route('/projects/{page}', name: 'app_projects')]
-    public function index(int $page,Request $request, InvestmentsRepository $invrepo,CategoryRepository $catrepo ): Response
+    #[Route('/projects/{cat}/{page}', name: 'app_projects')]
+    public function index(int $cat ,int $page,Request $request, InvestmentsRepository $invrepo,CategoryRepository $catrepo ): Response
     {
-        $itemsPerPage = 4; // Number of items per page
-        $totalItems = count($invrepo->findAllSortedByFundingDifference()); // Total number of items
+        $itemsPerPage = 2; // Number of items per page
+        $Cat= $catrepo->find($cat);
+       if ( $Cat == null ) { $totalItems = count($invrepo->findAllSortedByFundingDifference()); // Total number of items
         $totalPages = ceil($totalItems / $itemsPerPage); // Calculate the total number of pages
-        $projets= $invrepo->findPaginated($page, $itemsPerPage);
+        $projets= $invrepo->findPaginated($page, $itemsPerPage);}
+        else 
+        { $totalItems = count($invrepo->findByCategory($cat)); // Total number of items
+            $totalPages = ceil($totalItems / $itemsPerPage); // Calculate the total number of pages
+            $projets= $invrepo->findPaginatedbycat($page, $itemsPerPage,$cat);}
         $categories= $catrepo->findAll();
-        $reccprojets= $invrepo->findAll();
-//        $publications = $publicationRepository->findPaginated($page, $itemsPerPage);
-//        $totalItems = count($publicationRepository->findAllsortedValide()); // Total number of items
-
+        $reccprojets= $invrepo->findAllSortedByFundingDifference();
+       
         return $this->render('home/projects.html.twig', [
             'controller_name' => 'ProjectsController',
             'part' => 3,
@@ -38,7 +41,7 @@ class ProjectsController extends AbstractController
             'curentPage'=>$page,
             'categories'=>$categories,
             'reccprojets' =>$reccprojets,
-            //'reccpublications' => $publicationRepository->findAllsortedValide(),
+            'cat'=>$Cat,
         ]);
     }    
 }

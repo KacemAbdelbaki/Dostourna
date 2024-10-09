@@ -24,9 +24,33 @@ class InvestmentsRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    
     public function findPaginated(int $page, int $perPage)
     {
             $query = $this->createQueryBuilder('i')
+            ->orderBy('i.price - i.currentFunding', 'ASC') // Sort by the difference
+            ->addOrderBy('i.createdAt', 'DESC') // Optional: secondary sort by creation date
+            ->getQuery();
+
+        return $this->paginate($query, $perPage, $page);
+    }
+    public function findByCategory(int $categoryId)
+    {
+        return $this->createQueryBuilder('i')
+            ->join('i.categorie', 'c') 
+            ->andWhere('c.id = :categoryId')
+            ->setParameter('categoryId', $categoryId)
+            ->orderBy('i.price - i.currentFunding', 'ASC') // Sort by the difference
+            ->addOrderBy('i.createdAt', 'DESC') // Optional: secondary sort by creation date
+            ->getQuery()
+            ->getResult();
+    }
+    public function findPaginatedbycat(int $page, int $perPage,int $categoryId)
+    {
+            $query = $this->createQueryBuilder('i')
+            ->join('i.categorie', 'c') // Assuming 'categorie' is the correct property name in the Project entity
+            ->andWhere('c.id = :categoryId')
+            ->setParameter('categoryId', $categoryId)
             ->orderBy('i.price - i.currentFunding', 'ASC') // Sort by the difference
             ->addOrderBy('i.createdAt', 'DESC') // Optional: secondary sort by creation date
             ->getQuery();

@@ -83,7 +83,7 @@
                         <a class="nav-link" href="{{ path('app_about') }}"> <i class="fa-solid fa-book-open-reader"></i> À Propos </a>
                     </li>
                     <li{% if (part==3)%}  class="active"{% endif %}>
-                        <a class="nav-link" href="{{ path('app_projects', {'page':1}) }}"> <i class="fa-solid fa-rectangle-history-circle-plus"></i> Nos Projets </a>  
+                        <a class="nav-link" href="{{ path('app_projects', {'cat': 0 ,'page':1}) }}"> <i class="fa-solid fa-rectangle-history-circle-plus"></i> Nos Projets </a>  
                     </li>
                      {# <li{% if (part==4)%}  class="active"{% endif %}>
                         <a class="nav-link" href="{{ path('app_home') }}"> <i class="fa-solid fa-coins"></i> Financement</a>  
@@ -234,7 +234,7 @@
                     </a>
                   </li>
                   <li>
-                    <a href="{{ path('app_projects', {'page':1}) }}" style="color: var(--bs-dark);">
+                    <a href="{{ path('app_projects', {'cat': 0 ,'page':1}) }}" style="color: var(--bs-dark);">
                       <span class="info_icon">
                         <i class="fa-solid fa-circle"></i>
                       </span>

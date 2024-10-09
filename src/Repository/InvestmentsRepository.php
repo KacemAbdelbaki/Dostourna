@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Investments;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * @extends ServiceEntityRepository<Investments>
@@ -15,6 +16,32 @@ class InvestmentsRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Investments::class);
     }
+    public function findAllSortedByFundingDifference()
+    {
+        return $this->createQueryBuilder('i')
+            ->orderBy('i.price - i.currentFunding', 'ASC') // Sort by the difference
+            ->addOrderBy('i.createdAt', 'DESC') // Optional: secondary sort by creation date
+            ->getQuery()
+            ->getResult();
+    }
+    public function findPaginated(int $page, int $perPage)
+    {
+            $query = $this->createQueryBuilder('i')
+            ->orderBy('i.price - i.currentFunding', 'ASC') // Sort by the difference
+            ->addOrderBy('i.createdAt', 'DESC') // Optional: secondary sort by creation date
+            ->getQuery();
+
+        return $this->paginate($query, $perPage, $page);
+    }
+    private function paginate($query, $perPage, $page)
+    {
+        $offset = ($page - 1) * $perPage;
+        $query->setFirstResult($offset)
+            ->setMaxResults($perPage);
+
+        return new Paginator($query, $fetchJoinCollection = true);
+    }
+
 
     //    /**
     //     * @return Investments[] Returns an array of Investments objects

@@ -20,9 +20,9 @@ class ProjectsController extends AbstractController
     public function index(int $page,Request $request, InvestmentsRepository $invrepo,CategoryRepository $catrepo ): Response
     {
         $itemsPerPage = 4; // Number of items per page
-        $totalItems = count($invrepo->findAll()); // Total number of items
+        $totalItems = count($invrepo->findAllSortedByFundingDifference()); // Total number of items
         $totalPages = ceil($totalItems / $itemsPerPage); // Calculate the total number of pages
-        $projets= $invrepo->findAll();
+        $projets= $invrepo->findPaginated($page, $itemsPerPage);
         $categories= $catrepo->findAll();
         $reccprojets= $invrepo->findAll();
 //        $publications = $publicationRepository->findPaginated($page, $itemsPerPage);

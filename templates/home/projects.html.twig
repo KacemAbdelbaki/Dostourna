@@ -98,6 +98,125 @@
                     {% endif %}
                   </div>
                 </div>
+                <div class="col-lg-4">
+                  <aside class="sidebar ps-lg-4">                  
+                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED')  %}
+                   <div class="form-group">
+                      <input
+                        id="sidebar_search"
+                        class="form-control"
+                        type="search"
+                        name="search"
+                        placeholder=" Créer Votre Projet "
+                        disabled
+                      />        
+                      <a class="btn-link input_icon" href="{{ path('app_home') }}">
+                       <br> <i class="fa-solid fa-location-plus fa-xl"></i>
+                      </a>            
+                    </div>
+                    {% else %}
+                    <div class="form-group d-flex items-align-center">
+                      <input
+                        id="sidebar_search"
+                        class="form-control"
+                        type="search"
+                        name="search"
+                        placeholder="Se connecter pour créer un projet"
+                        disabled
+                      />        
+                      <a class="btn-link input_icon" href="{{ path('app_home') }}">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                      </a>            
+                    </div>
+                    {% endif %}
+                    <div class="sidebar_widget">
+                      <h3 class="sidebar_widget_title">
+                        <span class="title_icon">
+                          <img
+                            src="{{asset('assets/images/site_logo/favourite_icon.svg')}}"
+                            alt="help me balance"
+                          />
+                        </span>
+                        <span class="title_text">Catégories</span>
+                      </h3>
+                      <ul class="post_category_list unordered_list_block">
+                        {% set sortedCategories = categories|sort((a, b) => (a.investments|length) < (b.investments|length)) %}
+                        {% for categorie in sortedCategories %}
+                        <li>
+                          <a href="{{ path('app_projects', { 'page': 1}) }}">
+                            <span class="category_name">{{categorie.name}}</span>                     
+                            {% if categorie.investments|length == 0 %}
+                            <span class="category_counter">Nouvelle</span>
+                            {% else %}
+                            <span class="category_counter">{{ categorie.investments|length }}</span>
+                            {% endif %}
+                          </a>
+                        </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                    <div class="sidebar_widget">
+                      <h3 class="sidebar_widget_title">
+                        <span class="title_icon">
+                          <img
+                            src="{{asset('assets/images/site_logo/favourite_icon.svg')}}"
+                            alt="help me balance"
+                          />
+                        </span>
+                        <span class="title_text">Découvrir les projets à succès</span>
+                      </h3>
+                      <ul class="reecommended_post_group unordered_list_block">
+                        {% for projet in reccprojets|slice(0, 3) %}
+                        <li>
+                          <div class="blog_item_small">
+                            <div class="blog_image">
+                              <a class="blog_image_wrap" href="{{  path('app_projects', { 'page': 1}) }}">
+                                <img
+                                 src="{{asset('assets/images/gallery/' ~ random(1,5) ~ '.png')}}"
+                                alt="HelpMeBalance"
+                                />
+                              </a>
+                            </div>
+                            <div class="blog_content">
+                              <h3 class="item_title">
+                                <a href="{{  path('app_projects', { 'page': 1}) }}">
+                                    {{ projet.name }}
+                                </a>
+                              </h3>
+                             <ul class="post_meta unordered_list" style="display: flex; justify-content: space-between; align-items: center; white-space: nowrap;">
+                            <li style="flex: 1;">{{ projet.type }} <i class="fa-solid fa-list-check"></i></li>                          
+                            <li style="flex: 2; display: flex; align-items: center; white-space: nowrap;">
+                                <progress style="flex-shrink: 1; min-width: 100px; max-width: 200px; width: 100%;" 
+                                          value="{{ projet.currentFunding }}" 
+                                          max="{{ projet.price }}">
+                                    {{ projet.currentFunding }}%
+                                </progress>
+                                <span style="margin-left: 10px;">
+                                    {{ projet.currentFunding }} / {{ projet.price }} <i class="fa-solid fa-money-bill-trend-up"></i>
+                                </span>
+                            </li>
+                        </ul>
+
+                            </div>
+                          </div>
+                        </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                    
+                  </aside>
+                </div>
+            </div>
+            <div class="pagination_wrap  section_space_lg col-lg-8">
+                <ul class="pagination_nav unordered_list justify-content-center">
+                  {% if (totalPages>0)%}
+                    {% for page in range(1, totalPages) %}
+                    <li {% if curentPage == page %} class="active" {% endif %}>
+                        <a href="{{ path('app_projects', { 'page': page})  }}">{{ page }}</a>
+                    </li>
+                    {% endfor %}
+                    {% endif %}
+                </ul>
             </div>
             </div>
           </section>

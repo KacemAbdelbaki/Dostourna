@@ -74,8 +74,55 @@
                       Explorez les Projets qui Façonnent l’Avenir
                 </p>
               </div>
+              <div class="blog_image" id="map" style="width: 100%; height:600px;position: relative; left: 50%; transform: translateX(-50%)">
+                  </div>             
+                  <script>
+                      document.addEventListener("DOMContentLoaded", function() {
+                          var map = L.map('map').setView([34.0, 9.0], 6);
+                          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                              maxZoom: 19,
+                              attribution: '© OpenStreetMap'
+                          }).addTo(map);
+                          var openMarker = null;
+                          {% for projet in projets %}
+                          (function() {
+                          var latitude = {{ projet.latitude }};
+                          var longitude = {{ projet.longitude }};
+                          var projectName = "{{ projet.name }}"; 
+                          var projectUrl = "{{ path('project_detail', {'id': projet.id}) }}";
+                          var marker = L.marker([latitude, longitude]).addTo(map)
+                              .bindPopup(`
+                                        <strong>${projectName}</strong><br>
+                                        <button onclick="window.location.href='${projectUrl}'" style="background: none; border: none; cursor: pointer;">
+                                            En Savoir Plus <i class="fa-solid fa-eye"></i>
+                                        </button>
+                                       `, { offset: L.point(0, -20) });
+                              marker.openPopup();
+                              openMarker = marker
+                              marker.on('popupopen', function() {
+                                  openMarker = marker; // Store the current marker
+                              });
+                              })();
+                          {% endfor %}
+                          var bounds = [
+                          {% for projet in projets %}
+                              [{{ projet.latitude }}, {{ projet.longitude }}],
+                          {% endfor %}
+                            ];
+                            if (bounds.length > 0) {
+                                map.fitBounds(bounds);
+                            }
+                          // Event listener for zoom changes
+                          map.on('zoomend', function() {
+                              // Recenter the map after zooming
+                              if (openMarker) {
+                              map.setView(openMarker.getLatLng(), map.getZoom());}
+                          });
+                      });
+                  </script>
               <div class="btn_wrap pb-2 text-center">
-                <a class="btn btn-primary" href="#">
+               {% if is_granted('IS_AUTHENTICATED_REMEMBERED')  %}
+                <a class="btn btn-primary" href="{{ path('add_project') }}">
                   <span class="btn_text" data-text="Un pas vers l'avenir">
                     Participer à un Projet
                   </span>
@@ -83,6 +130,16 @@
                     <i class="fa-solid fa-arrow-up-right"></i>
                   </span>
                 </a>
+                {% else %}
+                  <a class="btn btn-primary" href="{{ path('app_user_login')}}">
+                  <span class="btn_text" data-text="Connectez-Vous">
+                    Participer à un Projet
+                  </span>
+                  <span class="btn_icon">
+                    <i class="fa-solid fa-arrow-up-right"></i>
+                  </span>
+                </a>
+                {% endif %}
               </div>
             </div>
           </section>
@@ -242,7 +299,7 @@
                                     <i class="fa-solid fa-arrow-up-right"></i>
                                 </span>
                             </a>
-                            <a class="btn btn-outline-secondary" href="#" style="margin-left: 1rem;">
+                            <a class="btn btn-outline-secondary" href="{{ path('add_project') }}" style="margin-left: 1rem;">
                             <span class="btn_text" data-text="votre premier pas">
                                 Participer à un Projet
                             </span>

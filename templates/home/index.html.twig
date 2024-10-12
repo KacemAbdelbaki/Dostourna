@@ -89,13 +89,16 @@
                           var latitude = {{ projet.latitude }};
                           var longitude = {{ projet.longitude }};
                           var projectName = "{{ projet.name }}"; 
-                          var projectUrl = "{{ path('project_detail', {'id': projet.id}) }}";
                           var marker = L.marker([latitude, longitude]).addTo(map)
                               .bindPopup(`
-                                        <strong>${projectName}</strong><br>
-                                        <button onclick="window.location.href='${projectUrl}'" style="background: none; border: none; cursor: pointer;">
-                                            En Savoir Plus <i class="fa-solid fa-eye"></i>
-                                        </button>
+                                         <a class="btn btn-outline-secondary" href="{{ path('project_detail', {'id': projet.id}) }}" style="margin-left: 1rem;">
+                                        <span class="btn_text" data-text="Détails">
+                                          ${projectName}
+                                        </span>
+                                        <span class="btn_icon">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </span>
+                                        </a>
                                        `, { offset: L.point(0, -20) });
                               marker.openPopup();
                               openMarker = marker

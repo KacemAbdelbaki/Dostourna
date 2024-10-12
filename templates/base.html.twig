@@ -120,13 +120,13 @@
                       <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                           <li><a class="dropdown-item" href="#">Edit Profile</a></li>
                           <li><a class="dropdown-item" href="#">Change Password</a></li>
-                          <li><a class="dropdown-item" href="#">Logout</a></li>
+                          <li><a class="dropdown-item" href="{{ path('app_user_logout') }}">Logout</a></li>
                       </ul>
                   </li>
               {% else %}
                   <!-- Login Button for Guests -->
                   <li>
-                    <a class="btn btn-primary" href="#">
+                    <a class="btn btn-primary" href="{{ path('app_user_login')}}">
                       <span class="btn_text" data-text="Maintenant 🫶">
                       Rejoignez-nous
                       </span>

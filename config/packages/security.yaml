@@ -5,13 +5,29 @@ security:
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
         users_in_memory: { memory: null }
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             lazy: true
-            provider: users_in_memory
+            provider: app_user_provider
+            form_login:
+                    login_path: app_user_login
+                    check_path: app_user_login
+                    username_parameter: email 
+                    password_parameter: password
+            remember_me:
+                secret: '%env(APP_SECRET)%' 
+                lifetime: 604800  
+                path: /
+                always_remember_me: true
+            logout:
+                path: app_user_logout
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall

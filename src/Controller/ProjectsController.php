@@ -44,4 +44,24 @@ class ProjectsController extends AbstractController
             'cat'=>$Cat,
         ]);
     }    
+    #[Route('/details/{id}', name: 'project_detail')]
+    public function aboutproject(int $id): Response
+    {
+        return $this->render('home/details.html.twig', [
+            'controller_name' => 'HomeController',
+            'part' => 3,
+            'title' => 'project categorie',
+            'titlepage' => 'Détails - ',
+        ]);
+    }
+    #[Route('/projet', name: 'add_project')]
+    public function addproject(): Response
+    {
+        return $this->render('home/addproject.html.twig', [
+            'controller_name' => 'HomeController',
+            'part' => 3,
+            'title' => 'new project',
+            'titlepage' => 'Projet - ',
+        ]);
+    }
 }

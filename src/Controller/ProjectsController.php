@@ -45,13 +45,35 @@ class ProjectsController extends AbstractController
         ]);
     }    
     #[Route('/details/{id}', name: 'project_detail')]
-    public function aboutproject(int $id): Response
+    public function aboutproject(int $id, InvestmentsRepository $invrepo,CategoryRepository $catrepo): Response
     {
+        $categories= $catrepo->findAll();
+        $reccprojets= $invrepo->findAllSortedByFundingDifference();
+        $projet= $invrepo->find($id);
         return $this->render('home/details.html.twig', [
             'controller_name' => 'HomeController',
             'part' => 3,
-            'title' => 'project categorie',
+            'title' => $projet->getName(),
             'titlepage' => 'Détails - ',
+            'projet'=>$projet,
+            'categories'=>$categories,
+            'reccprojets' =>$reccprojets,
+        ]);
+    }
+    #[Route('/infos/{id}', name: 'app_project_edit')]
+    public function editproject(int $id, InvestmentsRepository $invrepo,CategoryRepository $catrepo): Response
+    {
+        $categories= $catrepo->findAll();
+        $reccprojets= $invrepo->findAllSortedByFundingDifference();
+        $projet= $invrepo->find($id);
+        return $this->render('home/details.html.twig', [
+            'controller_name' => 'HomeController',
+            'part' => 3,
+            'title' => $projet->getName(),
+            'titlepage' => 'Détails - ',
+            'projet'=>$projet,
+            'categories'=>$categories,
+            'reccprojets' =>$reccprojets,
         ]);
     }
     #[Route('/projet', name: 'add_project')]

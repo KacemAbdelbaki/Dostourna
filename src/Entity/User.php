@@ -6,10 +6,12 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -17,10 +19,16 @@ class User
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    public ?string $firstName = null;
+
+    #[ORM\Column(length: 255)]
+    public ?string $lastName = null;
 
     #[ORM\Column(length: 255)]
     private ?string $email = null;
+
+    #[ORM\Column]
+    private ?int $phone = null;
 
     #[ORM\Column(length: 255)]
     private ?string $password = null;
@@ -51,14 +59,36 @@ class User
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getPhone(): ?int
     {
-        return $this->name;
+        return $this->phone;
     }
 
-    public function setName(string $name): static
+    public function setPhone(int $phone): ?int
     {
-        $this->name = $name;
+        return $this->phone = $phone;
+    }
+
+    public function getFisrtName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(string $firstName): static
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(string $lastName): static
+    {
+        $this->lastName = $lastName;
 
         return $this;
     }
@@ -157,5 +187,25 @@ class User
         }
 
         return $this;
+    }
+
+    public function getRoles(): array
+    {
+        return ['connected']; 
+    }
+
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    public function eraseCredentials(): void
+    {
+
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->getEmail();
     }
 }

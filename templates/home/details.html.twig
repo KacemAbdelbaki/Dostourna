@@ -28,6 +28,14 @@
                     style="width: 1200px; height: 400px; "
                     />
                     <div class="d-flex justify-content-end "  style="margin-top: 10px;">
+                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') and projet.user.id == app.user.id %}
+                                <a class="btn btn-outline-secondary" href="{{path('app_project_edit', {'id': projet.id})}}" style="margin-left: 20px;">
+                                <span class="btn_text"data-text="Maintenant">Mettre À Jour</span>
+                                <span class="btn_icon"
+                                    ><i class="fa-solid fa-pen"></i
+                                ></span>
+                                </a>
+                            {% else %}
                     <a class="btn btn-primary" href="{{ path('add_project') }}">
                     <span class="btn_text" data-text="Maintenant">
                         Faire un Don
@@ -36,6 +44,7 @@
                         <i class="fa-regular fa-circle-dollar-to-slot"></i>
                     </span>
                     </a>
+                    {% endif %}
                     </div>
                 </div>
                 
@@ -144,8 +153,17 @@
                                         fetchRegionName(latitude, longitude).then(regionName => {
                                             var marker = L.marker([latitude, longitude]).addTo(map)
                                                 .bindPopup(`
+                                                
                                                     <div style="text-align: center;">
                                                         <strong style="font-size: 18px; display: block;">${regionName}</strong><br> <!-- Region name above the button -->
+                                                        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') and projet.user.id == app.user.id %}
+                                                            <a class="btn btn-outline-secondary" href="{{path('app_project_edit', {'id': projet.id})}}" style="margin-left: 20px;">
+                                                            <span class="btn_text"data-text="Maintenant">Mettre À Jour</span>
+                                                            <span class="btn_icon"
+                                                                ><i class="fa-solid fa-pen"></i
+                                                            ></span>
+                                                            </a>
+                                                        {% else %}
                                                         <a class="btn btn-primary" href="{{ path('add_project') }}">
                                                             <span class="btn_text" data-text="${projectName}">
                                                                 Faire un Don
@@ -154,6 +172,7 @@
                                                                 <i class="fa-regular fa-circle-dollar-to-slot"></i>
                                                             </span>
                                                         </a>
+                                                        {% endif %}
                                                     </div>
                                                 `, { offset: L.point(0, -20) });
 

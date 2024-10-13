@@ -101,7 +101,7 @@
                             ></span>
                             </a>
                             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') and projet.user.id == app.user.id %}
-                                <a class="btn-link" href="#" style="margin-left: 20px;">
+                                <a class="btn-link" href="{{path('app_project_edit', {'id': projet.id})}}" style="margin-left: 20px;">
                                 <span class="btn_text">Mettre À Jour</span>
                                 <span class="btn_icon"
                                     ><i class="fa-solid fa-pen"></i

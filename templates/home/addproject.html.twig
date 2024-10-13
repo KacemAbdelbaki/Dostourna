@@ -1,1 +1,273 @@
 {% extends 'base.html.twig' %}
+{% block pageBannerurlretour %}
+                <li><a href="{{ path('app_projects', {'cat': 0 ,'page':1}) }}">Nos Projets</a></li>
+                <li>{{ title }}</li>
+ {% endblock %}
+ {% block body %} 
+{% block javascripts %}
+<script>
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function(e) {
+        $('#img_preview').attr('src', e.target.result);
+        $('#img_preview').show();
+      }
+
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+</script>
+{% endblock %}
+        <section class="blog_section ">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-8">
+                  <div class="row">
+                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED')  %}
+                    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+                    <div class="comment_form pb-0">
+                      <h4 class="pricing_heading">Remplissez les informations ci-dessous pour soumettre un nouveau projet.</h4>
+                      
+                      <div class="row" style="margin-top:20px;">
+                      <h4 class="pricing_heading">Informations Générales du Projet </h4>
+                        <div class="col-md-8">
+                            <div class="form-group " style="display: flex; align-items: center; margin-bottom: 15px;">
+                            <label for="input_name" style="min-width: 200px; margin-right: 20px;" >Nom du Projet</label>
+                            {{ form_widget(form.name,{'attr' : {'class' : 'form-control','placeholder' : 'Entrez le nom de votre projet','style': 'width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); '}})}}
+                            </div>  
+                       
+                            <div class="form-group " style="display: flex; align-items: center; margin-bottom: 15px;">
+                            <label for="input_name" style="min-width: 200px; margin-right: 20px;"> Catégorie du projet</label>
+                            {{ form_widget(form.categorie, {'attr': {'class': 'form-select','style': 'width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); '}}) }}
+                            </div> 
+                            <div class="form-group " style="display: flex; align-items: center; margin-bottom: 15px;">
+                            <label for="input_name" style="min-width: 200px; margin-right: 20px;" >Type de projet</label>
+                            {{ form_widget(form.type,{'attr' : {'class' : 'form-control','placeholder' : 'Entrez le type de votre projet','style': 'width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); '}})}}
+                            </div>
+                            <div style="color: #8b0000; font-weight: bold;">
+                             {{ form_errors(form.name, {'attr': {}}) }}                              
+                             {{ form_errors(form.type, {'attr': {}}) }}
+                             </div>
+                        </div>
+                         <h4 class="pricing_heading">Ajoutez une Illustration </h4>  
+                          <div class="col-md-8">
+                            <img id="img_preview" src="#" alt="your image" style="display: none; width: 300px; height: 300px; margin-bottom: 15px;"/> 
+                            <div class="form-group " style="display: flex; align-items: center; margin-bottom: 15px;">
+                            <label for="input_name" style="min-width: 200px; margin-right: 20px;" >Image du Projet</label>
+                            {{ form_widget(form.imageFile, {'attr': {'class': 'form-control-file', 'onchange': 'readURL(this);'}}) }}
+                            </div> 
+                          </div>
+                          <h4 class="pricing_heading">Détails du Projet et Budget </h4>   
+                        <div class="col-12">
+                         <div class="form-group mb-4 " style="display: flex; align-items: center; margin-bottom: 15px;">
+                            <label for="input_name" style="min-width: 200px; margin-right: 20px;"> Description</label>
+                            {{ form_widget(form.description,{'attr' : {'class' : 'form-control','placeholder' : 'Décrivez votre projet en quelques phrases','style': 'width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);'}})}}
+                            </div>  
+                        </div>
+                        <div class="col-md-8">
+                            <div class="form-group " style="display: flex; align-items: center; margin-bottom: 15px;">
+                            <label for="input_name" style="min-width: 200px; margin-right: 20px;" > Montant à collecter</label>
+                            {{ form_widget(form.price,{'attr' : {'class' : 'form-control','placeholder' : 'Entrez l`objectif de financement de votre projet','style': 'width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); '}})}}
+                            </div>  
+                        </div> 
+                            <div style="color: #8b0000; font-weight: bold;">
+                            {{ form_errors(form.description, {'attr': {'class': 'text-red-200 bg-red-400 '}}) }}
+                            {{ form_errors(form.price, {'attr': {'class': 'text-red-200 bg-red-400 '}}) }}
+                            </div>
+                        <h4 class="pricing_heading">Localisation du Projet </h4> 
+                        <div  class="col-12" id="map" style="height: 400px; width: 100%; border-radius: 8px; margin-bottom: 50px;"></div>
+                                 <script>
+                                   // Initialize the Leaflet map
+                                    const map = L.map('map').setView([33.8869, 9.5375], 6); // Coordinates for Tunisia
+                                    // Set up the tile layer
+                                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                        maxZoom: 19,
+                                    }).addTo(map);
+
+                                    // Create a draggable marker
+                                    let marker = L.marker([33.8869, 9.5375], {
+                                        draggable: true,
+                                    }).addTo(map);
+
+                                    // Show a popup on marker drag
+                                    marker.on('dragend', function(e) {
+                                        const position = marker.getLatLng();
+                                        document.getElementById('{{ form.latitude.vars.id }}').value = position.lat;
+                                        document.getElementById('{{ form.longitude.vars.id }}').value = position.lng;
+
+                                        // Fetch the region name based on coordinates
+                                        fetch(`https://nominatim.openstreetmap.org/reverse?lat=${position.lat}&lon=${position.lng}&format=json`)
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                const regionName = data.display_name; // You may want to customize this
+                                                marker.bindPopup(`<span style="font-size: 18px;">${regionName}</span>`).openPopup();
+                                                map.setView(position, 9);
+                                            });
+                                    });
+
+                                    // When the page loads, set the marker position from the form fields
+                                    const latitude = document.getElementById('{{ form.latitude.vars.id }}').value;
+                                    const longitude = document.getElementById('{{ form.longitude.vars.id }}').value;
+                                        marker.setLatLng([latitude, longitude]);
+                                        map.setView([latitude, longitude], 9);
+                                    
+                                     function updateMapOnMarkerMove() {
+                                            const position = marker.getLatLng();
+                                            map.setView(position, 13); // Zoom to marker
+                                        }
+
+                                        marker.on('drag', updateMapOnMarkerMove);
+                                </script>
+                                <div class="form-group mb-4" style="display: flex; align-items: center; margin-bottom: 15px;">
+                                    <label for="{{ form.latitude.vars.id }}"style="min-width: 200px; margin-right: 20px;">Latitude</label>
+                                      {{ form_widget(form.latitude) }}
+                                </div>
+
+                                <div class="form-group mb-4" style="display: flex; align-items: center; margin-bottom: 15px;">
+                                    <label for="{{ form.longitude.vars.id }}"style="min-width: 200px; margin-right: 20px;">Longitude</label>
+                                     {{ form_widget(form.longitude) }}
+                                </div>        
+                        </div>
+                        <button type="submit" class="btn btn-outline-primary" style="width: 100%;border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); justify-content: center;margin-top: 30px;margin-bottom: 50px;">
+                            <span class="btn_text" data-text="Félicitations !">
+                                Créer le Projet
+                            </span>
+                            <span class="btn_icon">
+                                <i class="fa-solid fa-check"></i> 
+                            </span>
+                        </button>
+                      
+                    </div>
+                    {{ form_end(form) }}
+                    {% endif %}
+
+                  </div>
+                </div>
+  
+                <div class="col-lg-4">
+                  <aside class="sidebar ps-lg-4">                  
+                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED')  %}
+                      <a class="btn btn-outline-secondary" href="{{ path('add_project') }}" style="width: 100%;border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); justify-content: center;">
+                              <span class="btn_text" data-text="votre premier pas">
+                                  Créer Votre Projet 
+                              </span>
+                              <span class="btn_icon" >
+                                  <i class="fa-solid fa-layer-plus fa-xl"></i>
+                              </span>
+                              </a>       
+                    {% else %}
+                        <a class="btn btn-outline-secondary" href="{{ path('add_project') }}" style="width: 100%;border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); justify-content: center;">
+                              <span class="btn_text" data-text="Bienvenue Parmis Nous">
+                                  Se connecter pour créer un projet
+                              </span>
+                              <span class="btn_icon">
+                                  <i class="fa-solid fa-right-to-bracket"></i>
+                              </span>
+                              </a> 
+                    {% endif %}
+                    <div class="sidebar_widget">
+                      <h3 class="sidebar_widget_title">
+                        <span class="title_icon">
+                          <img
+                            src="{{asset('assets/images/site_logo/favourite_icon.svg')}}"
+                            alt="help me balance"
+                          />
+                        </span>
+                        <span class="title_text">Catégories</span>
+                      </h3>
+                      <ul class="post_category_list unordered_list_block">
+                        {% set sortedCategories = categories|sort((a, b) => (a.investments|length) < (b.investments|length)) %}
+                        {% for categorie in sortedCategories %}
+                        <li>
+                          <a href="{{ path('app_projects', { 'cat': categorie.id ,'page': 1}) }}">
+                            <span class="category_name">{{categorie.name }}</span>                     
+                            {% if categorie.investments|length == 0 %}
+                            <span class="category_counter">Nouvelle</span>
+                            {% else %}
+                            <span class="category_counter">{{ categorie.investments|length }}</span>
+                            {% endif %}
+                          </a>
+                        </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                    <div class="sidebar_widget">
+                      <h3 class="sidebar_widget_title">
+                        <span class="title_icon">
+                          <img
+                            src="{{asset('assets/images/site_logo/favourite_icon.svg')}}"
+                            alt="help me balance"
+                          />
+                        </span>
+                        <span class="title_text">Découvrir les projets à succès</span>
+                      </h3>
+                      <ul class="reecommended_post_group unordered_list_block">
+                        {% for projet in reccprojets|slice(0, 3) %}
+                        <li>
+                          <div class="blog_item_small">
+                            <div class="blog_image">
+                              <a class="blog_image_wrap" href="{{path('project_detail', {'id': projet.id})}}">
+                                <img
+                                 src="{{asset('assets/images/gallery/' ~ random(1,5) ~ '.png')}}"
+                                alt="HelpMeBalance"
+                                />
+                              </a>
+                            </div>
+                            <div class="blog_content">
+                              <h3 class="item_title">
+                                <a href="{{path('project_detail', {'id': projet.id})}}">
+                                    {{ projet.name }}
+                                </a>
+                              </h3>
+                             <ul class="post_meta unordered_list" style="display: flex; justify-content: space-between; align-items: center; white-space: nowrap;">
+                            <li style="flex: 1;">{{ projet.type }} <i class="fa-solid fa-list-check"></i></li>                          
+                            <li style="flex: 2; display: flex; align-items: center; white-space: nowrap; ">
+                                <progress style="flex-shrink: 1; min-width: 100px; max-width: 200px; width: 100%;  " 
+                                          value="{{ projet.currentFunding }}" 
+                                          max="{{ projet.price }}">
+                                    {{ projet.currentFunding }}%
+                                </progress>
+                                <span style="margin-left: 10px;">
+                                    {{ projet.currentFunding }} / {{ projet.price }} <i class="fa-solid fa-money-bill-trend-up"></i>
+                                </span>
+                            </li>
+                        </ul>
+
+                            </div>
+                          </div>
+                        </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                    
+                  </aside>
+                </div>
+              </div>
+            </div>
+          </section>
+          <!-- Blog Section - End
+          ================================================== -->
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const categorieSelect = document.querySelector('#publication_Categorie');
+    const sousCategorieSelect = document.querySelector('#publication_SousCategorie');
+
+    categorieSelect.addEventListener('change', function() {
+        const categoryId = this.value;
+        fetch(`/subcategories/${categoryId}`)
+            .then(response => response.json())
+            .then(data => {
+                sousCategorieSelect.innerHTML = ''; // Clear existing options
+                data.forEach(subcategory => {
+                    let option = new Option(subcategory.name, subcategory.id);
+                    sousCategorieSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    });
+});
+</script>
+{% endblock %}

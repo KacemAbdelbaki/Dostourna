@@ -1,0 +1,109 @@
+{% block body %}
+    <div class="payment-container">
+        <form id="payment-form" class="payment-form">
+            <div id="card-element" class="card-element">
+                <!-- Stripe Element will be inserted here -->
+            </div>
+            <button id="submit" class="payment-button">Pay</button>
+            <div id="payment-message" class="payment-message"></div>
+        </form>
+    </div>
+
+    <!-- Include Stripe.js -->
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <script>
+        // Initialize Stripe with your public key
+        const stripe = Stripe('{{ stripe_public_key }}');
+        const elements = stripe.elements();
+
+        // Create a card element and mount it to the form
+        const cardElement = elements.create('card');
+        cardElement.mount('#card-element');
+
+        // Handle form submission
+        const form = document.getElementById('payment-form');
+        const paymentMessage = document.getElementById('payment-message');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();  // Prevent default form submission behavior
+
+            // Disable the submit button to prevent multiple clicks
+            document.getElementById('submit').disabled = true;
+            paymentMessage.textContent = "Processing payment...";
+
+            try {
+                // Fetch the client secret from the server
+                const response = await fetch('/create-payment-intent', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const { clientSecret } = await response.json();
+
+                // Confirm the card payment
+                const result = await stripe.confirmCardPayment(clientSecret, {
+                    payment_method: { card: cardElement }
+                });
+
+                if (result.error) {
+                    // Display error message
+                    paymentMessage.textContent = result.error.message;
+                } else if (result.paymentIntent.status === 'succeeded') {
+                    // Payment succeeded, show success message
+                    paymentMessage.textContent = "Payment successful! Thank you.";
+                }
+            } catch (error) {
+                // Handle any errors that occurred during fetch
+                paymentMessage.textContent = "An error occurred while processing payment.";
+                console.error(error);
+            }
+
+            // Re-enable the submit button
+            document.getElementById('submit').disabled = false;
+        });
+    </script>
+
+    <!-- Add CSS styles to improve the form appearance -->
+    <style>
+        .payment-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .payment-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-element {
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .payment-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .payment-button:disabled {
+            background-color: #999;
+        }
+
+        .payment-message {
+            margin-top: 15px;
+            font-size: 14px;
+            color: red;
+        }
+    </style>
+{% endblock %}

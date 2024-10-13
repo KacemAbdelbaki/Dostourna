@@ -26,14 +26,14 @@
                           <h2 class="section_heading_text">Il n'y a pas encore de projets disponibles.</h2>
                           <h3>Pourquoi ne pas créer le vôtre et faire la différence?</h3>
                           {% if is_granted('IS_AUTHENTICATED_REMEMBERED')  %}
-                          <a class="btn-link" href="{{ path('app_home') }}">
+                          <a class="btn-link" href="{{ path('add_project') }}">
                                     <h2 class="btn_text " style="color: var(--bs-primary);">Créer un Projet</h2>
                                     <span class="btn_icon"
                                       ><i class="fa-solid fa-arrow-up-right"></i
                                     ></span>
                                   </a>
                           {% else %}
-                          <a class="btn-link" href="{{ path('app_home') }}">
+                          <a class="btn-link" href="{{ path('app_user_login')}}">
                             <h2 class="btn_text" style="color: var(--bs-primary);">Connectez-vous pour créer un projet</h2>
                             <span class="btn_icon"
                               ><i class="fa-solid fa-right-to-bracket"></i
@@ -53,14 +53,14 @@
                                 var longitude = {{ projet.longitude }};
                                 var projectName = "{{ projet.name }}"; 
 
-                                var map = L.map('map{{ projet.id }}').setView([latitude, longitude], 15);
+                                var map = L.map('map{{ projet.id }}').setView([latitude, longitude], 10);
                                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                                     maxZoom: 19,
                                     attribution: '© OpenStreetMap'
                                 }).addTo(map);
 
                                 var marker = L.marker([latitude, longitude]).addTo(map)
-                                    .bindPopup(projectName + " sera localisé ici.", { offset: L.point(0, -20) });
+                                    .bindPopup(`<span style="font-size: 18px;"> ${projectName} sera localisé ici.</span>`, { offset: L.point(0, -20) }); 
                                 marker.openPopup();
 
                                 // Event listener for zoom changes
@@ -75,7 +75,7 @@
                             <li><a href="{{ path('app_projects', {'cat':  projet.categorie.id ,'page': 1}) }}">{{ projet.categorie.name }}</a></li>
                             </ul>
                             <ul class="post_meta unordered_list">
-                            <li>{{projet.user.name}} <i class="fa-solid fa-user"></i></li>
+                            <li>{{projet.user.firstName}}  {{projet.user.lastName}}<i class="fa-solid fa-user"></i></li>
                             <li>{{projet.type}} <i class="fa-solid fa-list-check"></i></li>
                             <li>{{projet.status}} <i class="fa-regular fa-calendar-clock"></i></li>
                             </ul>
@@ -87,25 +87,34 @@
                             </a></li>
                             </ul>
                             <h3 class="item_title">
-                            <a href="{{ path('app_home') }}">
+                            <a href="{{path('project_detail', {'id': projet.id})}}">
                                 {{ projet.name }}
                             </a>
                             </h3>
                             <p>
                             {{ projet.description|slice(0, 40) ~ (projet.description|length > 40 ? '...' : '') }}
                             </p>
-                            <a class="btn-link" href="{{ path('app_home') }}">
+                            <a class="btn-link" href="{{path('project_detail', {'id': projet.id})}}">
                             <span class="btn_text">En savoir plus</span>
                             <span class="btn_icon"
                                 ><i class="fa-solid fa-arrow-up-right"></i
                             ></span>
                             </a>
-                            <a class="btn-link" href="{{ path('app_home') }}" style="margin-left: 20px;">
-                            <span class="btn_text">Faire Un Don</span>
-                            <span class="btn_icon"
-                                ><i class="fa-solid fa-plus"></i
-                            ></span>
-                            </a>
+                            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') and projet.user.id == app.user.id %}
+                                <a class="btn-link" href="#" style="margin-left: 20px;">
+                                <span class="btn_text">Mettre À Jour</span>
+                                <span class="btn_icon"
+                                    ><i class="fa-solid fa-pen"></i
+                                ></span>
+                                </a>
+                            {% else %}
+                               <a class="btn-link" href="#" style="margin-left: 20px;">
+                              <span class="btn_text">Faire Un Don</span>
+                              <span class="btn_icon"
+                                  ><i class="fa-solid fa-plus"></i
+                              ></span>
+                              </a>
+                            {% endif %}                            
                         </div>
                         </div>
                     </div>
@@ -114,35 +123,25 @@
                   </div>
                 </div>
                 <div class="col-lg-4">
-                  <aside class="sidebar ps-lg-4">                  
+                  <aside class="sidebar ps-lg-4">          
                     {% if is_granted('IS_AUTHENTICATED_REMEMBERED')  %}
-                   <div class="form-group">
-                      <input
-                        id="sidebar_search"
-                        class="form-control"
-                        type="search"
-                        name="search"
-                        placeholder=" Créer Votre Projet "
-                        disabled
-                      />        
-                      <a class="btn-link input_icon" href="{{ path('app_home') }}">
-                       <br> <i class="fa-solid fa-location-plus fa-xl"></i>
-                      </a>            
-                    </div>
+                      <a class="btn btn-outline-secondary" href="{{ path('add_project') }}" style="width: 100%;border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); justify-content: center;">
+                              <span class="btn_text" data-text="votre premier pas">
+                                  Créer Votre Projet 
+                              </span>
+                              <span class="btn_icon" >
+                                  <i class="fa-solid fa-layer-plus fa-xl"></i>
+                              </span>
+                              </a>       
                     {% else %}
-                    <div class="form-group d-flex items-align-center">
-                      <input
-                        id="sidebar_search"
-                        class="form-control"
-                        type="search"
-                        name="search"
-                        placeholder="Se connecter pour créer un projet"
-                        disabled
-                      />        
-                      <a class="btn-link input_icon" href="{{ path('app_home') }}">
-                        <i class="fa-solid fa-right-to-bracket"></i>
-                      </a>            
-                    </div>
+                        <a class="btn btn-outline-secondary" href="{{ path('add_project') }}" style="width: 100%;border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); justify-content: center;">
+                              <span class="btn_text" data-text="Bienvenue Parmis Nous">
+                                  Se connecter pour créer un projet
+                              </span>
+                              <span class="btn_icon">
+                                  <i class="fa-solid fa-right-to-bracket"></i>
+                              </span>
+                              </a> 
                     {% endif %}
                     <div class="sidebar_widget">
                       <h3 class="sidebar_widget_title">
@@ -185,7 +184,7 @@
                         <li>
                           <div class="blog_item_small">
                             <div class="blog_image">
-                              <a class="blog_image_wrap" href="{{  path('app_projects', { 'cat': 0 ,'page': 1}) }}">
+                              <a class="blog_image_wrap" href="{{path('project_detail', {'id': projet.id})}}">
                                 <img
                                  src="{{asset('assets/images/gallery/' ~ random(1,5) ~ '.png')}}"
                                 alt="HelpMeBalance"
@@ -194,7 +193,7 @@
                             </div>
                             <div class="blog_content">
                               <h3 class="item_title">
-                                <a href="{{  path('app_projects', { 'cat': 0 ,'page': 1}) }}">
+                                <a href="{{path('project_detail', {'id': projet.id})}}">
                                     {{ projet.name }}
                                 </a>
                               </h3>

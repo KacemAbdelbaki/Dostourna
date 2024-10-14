@@ -46,6 +46,7 @@ class ProjectsController extends AbstractController
             'categories'=>$categories,
             'reccprojets' =>$reccprojets,
             'cat'=>$Cat,
+            'stripe_public_key' => $this->getParameter('app.stripe_public_key'),
         ]);
     }    
     #[Route('/details/{id}', name: 'project_detail')]
@@ -62,6 +63,7 @@ class ProjectsController extends AbstractController
             'projet'=>$projet,
             'categories'=>$categories,
             'reccprojets' =>$reccprojets,
+            'stripe_public_key' => $this->getParameter('app.stripe_public_key'),
         ]);
     }
     #[Route('/infos/{id}', name: 'app_project_edit')]
@@ -106,6 +108,7 @@ class ProjectsController extends AbstractController
             'categories'=>$categories,
             'reccprojets' =>$reccprojets,
             'form' => $form->createView(),
+            'stripe_public_key' => $this->getParameter('app.stripe_public_key'),
         ]);
     }
     #[Route('/projet/{id}', name: 'app_projet_delete', methods: ['POST'])]
@@ -163,7 +166,7 @@ class ProjectsController extends AbstractController
             'reccprojets' =>$reccprojets,
             'projet'=>$projet,
             'form' => $form->createView(),
-            
+            'stripe_public_key' => $this->getParameter('app.stripe_public_key'),
         ]);
     }
 }

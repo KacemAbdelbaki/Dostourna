@@ -40,7 +40,7 @@ class UserController extends AbstractController
             $hashedPassword = $passwordHasher->hashPassword($user, $request->request->get('password'));
             $user->setPassword($hashedPassword);
             $user->setPhone($request->request->get('phone'));
-            $user->setBalance(69);
+            $user->setBalance(0);
 
             $entityManager->persist($user);
             $entityManager->flush();

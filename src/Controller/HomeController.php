@@ -20,6 +20,7 @@ class HomeController extends AbstractController
             'title' => '',
             'titlepage' => '',
             'projets' => $projets,
+            'stripe_public_key' => $this->getParameter('app.stripe_public_key'),
         ]);
     }
     #[Route('/about', name: 'app_about')]
@@ -30,6 +31,7 @@ class HomeController extends AbstractController
             'part' => 2,
             'title' => 'Qui Sommes-Nous ?',
             'titlepage' => 'À Propos - ',
+            'stripe_public_key' => $this->getParameter('app.stripe_public_key'),
         ]);
     }
     

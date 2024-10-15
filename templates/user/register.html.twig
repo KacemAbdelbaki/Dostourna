@@ -1,103 +1,85 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Register - HelpMeBalance</title>
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="css/fontawesome-all.min.css" />
-    <link rel="stylesheet" type="text/css" href="css/iofrm-style.css" />
-    <link rel="stylesheet" type="text/css" href="css/iofrm-theme2.css" />
-  </head>
-  <body>
-    <div class="form-body">
-      <div class="website-logo">
-        <a href="index.html">
-          <div class="logo">
-            <img class="logo-size" src="images/logo-light.svg" alt="" />
-          </div>
-        </a>
-      </div>
-      <div class="row">
-        <div class="img-holder">
-          <div class="bg"></div>
-          <div class="info-holder"></div>
-        </div>
-        <div class="form-holder">
-          <div class="form-content">
-            <div class="form-items">
-              <h3>Get more things done with Loggin platform.</h3>
-              <p>
-                Access to the most powerfull tool in the entire design and web
-                industry.
-              </p>
-              <div class="page-links">
-                <a href="{{ path('app_user_login') }}">Login</a
-                ><a href="" class="active">Register</a>
-              </div>
-              <form action="{{ path('app_user_register') }}" method="POST">
-                <div class="d-flex">
-                  <input
-                  class="form-control mr-1"
-                  type="text"
-                  name="firstName"
-                  placeholder="First Name"
-                  required
-                />
-                <input
-                  class="form-control ml-1"
-                  type="text"
-                  name="lastName"
-                  placeholder="Last Name"
-                  required
-                />
-                </div>
-                <input
-                  class="form-control"
-                  type="email"
-                  name="email"
-                  placeholder="E-mail Address"
-                  required
-                />
-                <input
-                  class="form-control"
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  required
-                />
-                <input
-                  class="form-control"
-                  type="password"
-                  name="Rpassword"
-                  placeholder="Repeat Password"
-                  required
-                />
-                <input
-                  class="form-control"
-                  type="number"
-                  name="phone"
-                  placeholder="Phone Number"
-                  required
-                />
+
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+<section>
+  <div class="p-4" >
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-lg-12 col-xl-11">
+        <div class="text-black" style="border-radius: 25px;">
+          <div class="card-body p-md-5">
+            <div class="row justify-content-center">
+              <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+
+                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
+
+                <form action="{{ path('app_user_register') }}" method="POST">
+
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                    <div class="gap-4 d-flex  align-items-center mb-4 flex-row flex-fill">
+                      <div class="form-outline flex-fill mb-0">
+                        <label class="form-label" for="form3Example1c">Your first name</label>
+                        <div class='text-danger'></div>
+                        <input class="p-2 form-control" type="text" name="firstName" placeholder="First Name" required />
+                      </div>
+                      <div class="form-outline flex-fill mb-0">
+                        <label class="form-label" for="form3Example1c">Your last name</label>
+                        <div class='text-danger'></div>
+                        <input class="p-2 form-control" type="text" name="lastName" placeholder="Last Name" required />
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fas fa-envelope fa-lg me-3 fa-fw mt-4 pt-2"></i>
+                    <div class="form-outline flex-fill mb-0">
+                      <label class="form-label" for="form3Example3c">Your email</label>
+                      <div class='text-danger'></div>
+                      <input class="p-2 form-control" type="email" name="email" placeholder="E-mail Address" required />
+                    </div>
+                  </div>
+
+                  <div class="d-flex align-items-center">
+                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                    <div class="gap-4 d-flex  align-items-center mb-4 flex-row flex-fill">
+                      <div class="form-outline flex-fill mb-0">
+                        <label class="form-label" for="form3Example1c">Your password</label>
+                        <div class='text-danger'></div>
+                        <input class="form-control" type="password" name="password" placeholder="Password" required />
+                      </div>
+                      <div class="form-outline flex-fill mb-0">
+                        <label class="form-label" for="form3Example1c">Repeat your password</label>
+                        <div class='text-danger'></div>
+                        <input class="form-control" type="password" name="Rpassword" placeholder="Repeat Password" required />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fas fa-envelope fa-lg me-3 fa-fw mt-4 pt-2"></i>
+                    <div class="form-outline flex-fill mb-0">
+                      <label class="form-label" for="form3Example3c">Your phone number</label>
+                      <div class='text-danger'></div>
+                      <input class="form-control" type="number" name="phone" placeholder="Phone Number" required />
+                    </div>
+                  </div>
+
                 <div class="form-button">
-                  <button id="submit" type="submit" class="ibtn">
-                    Register
-                  </button>
+                  <button id="submit" type="submit" class="btn btn-primary btn-lg py-2 px-4">Register</button>
                 </div>
               </form>
-              <div class="other-links">
-                <span>Or register with</span><a href="#">Facebook</a
-                ><a href="#">Google</a><a href="#">Linkedin</a>
+              </div>
+              <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
+
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp" class="img-fluid" alt="Sample image">
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/main.js"></script>
-  </body>
-</html>
+  </div>
+</section>
+  {% endblock %}

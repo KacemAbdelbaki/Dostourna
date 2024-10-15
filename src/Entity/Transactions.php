@@ -24,7 +24,7 @@ class Transactions
     #[ORM\ManyToOne(inversedBy: 'transactions')]
     private ?User $user = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne( inversedBy: 'Investments')]
     private ?Investments $investment = null;
  public function getCreatedAt(): ?\DateTimeImmutable
     {

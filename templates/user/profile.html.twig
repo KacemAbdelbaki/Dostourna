@@ -1,0 +1,230 @@
+{% extends 'base.html.twig' %}
+{% block body %} 
+<div class="container">
+    <div class="main-body"> 
+          <div class="row gutters-sm">
+            <div class="col-md-4 mb-3">
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex flex-column align-items-center text-center">
+                    <img src="{{asset('assets/images/gallery/fond1.png')}}" alt="Admin" class="rounded-circle" width="150">
+                    <div class="mt-3">
+                      <h4> {{ app.user.lastName|capitalize }} {{ app.user.firstName|capitalize }}</h4>
+                      {% if app.user.investments is empty and app.user.transactions is empty %}
+                          <p class="text-secondary mb-1">Aventurier en Herbe!</p>
+                      {% elseif app.user.investments is not empty and app.user.transactions is empty %}
+                          <p class="text-secondary mb-1">Futur Visionnaire!</p>
+                      {% elseif app.user.investments is empty and app.user.transactions is not empty %}
+                          <p class="text-secondary mb-1">Cœur Généreux!</p>
+                      {% else %}
+                          <p class="text-secondary mb-1">Champion du Changement</p>
+                      {% endif %}
+                      <br>
+                       <a class="btn btn-primary d-inline-block" href="{{path('app_user_profile')}}" style="margin-right: 10px; font-size: 14px;">
+                        <span class="btn_text"data-text="Maintenant">Mettre À Jour</span>
+                        <span class="btn_icon"><i class="fa-solid fa-pen"></i></span>
+                        </a> 
+                        <a class="btn btn-outline-secondary d-inline-block" href="{{path('app_user_profile')}}"style="margin-right: 10px;  font-size: 14px;">
+                        <span class="btn_text"data-text="sûr?">Désactiver</span>
+                        <span class="btn_icon"><i class="fa-solid fa-trash"></i></span>
+                        </a>  
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="card mb-3">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Nom Complet</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ app.user.lastName|capitalize }} {{ app.user.firstName|capitalize }}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Email</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                     {{ app.user.Email|capitalize }}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Numéro de téléphone</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                    {{ app.user.phone }}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Solde</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ app.user.balance }} <i class="fa-duotone fa-solid fa-wallet"></i>
+                    </div>
+                  </div>
+                  <hr>
+                </div>
+              </div>
+
+              <div class="row gutters-sm">
+                <div class="col-sm-6 mb-3">
+                  <div class="card h-100">
+                    <div class="card-body" style="max-height: 300px; overflow-y: auto;">
+                      <h5 class="item_title"><i class="fa-solid fa-rectangle-history-circle-user"></i>  Mes Projets  </h5>
+                      {% if app.user.investments is not empty %}
+                       {% for projet in app.user.investments |sort((a, b) => (a.currentFunding / a.price) <= (b.currentFunding / b.price)) %}
+                      {% set now = "now"|date("Y-m-d H:i:s") %}
+                      {% set createdAt = projet.createdAt|date("Y-m-d H:i:s") %}
+                      {% set interval = (now|date('U') - createdAt|date('U'))|abs %}
+
+                      {% set days = interval // 86400 %}
+                      {% set months = days // 30 %}
+                      {% set remainingDays = days % 30 %}
+
+                      <!-- Project Title and Launch Date -->
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                          <h4  class="item_title"><a href="{{path('project_detail', {'id': projet.id})}}">{{ projet.name }}</a> </h4>
+                          <p class="text-secondary mb-0">
+                              <strong><i class="fa-solid fa-calendar-alt"></i> Lancé :</strong>
+                              {% if months > 0 %}
+                                  {{ ' il y a ' ~ months ~ ' mois' ~ (remainingDays > 0 ? ', ' ~ remainingDays ~ ' jours' : '') }}
+                              {% elseif days > 0 %}
+                                  {{ ' il y a ' ~ days ~ ' jour' ~ (days > 1 ? 's' : '') }}
+                              {% else %}
+                                  {{ ' aujourd\'hui' }}
+                              {% endif %}
+                          </p>
+                      </div>
+                      <div class="progress mb-4" style="height: 30px; background-color: #f2f2f2; border-radius: 8px; box-shadow: inset 0 1px 3px rgba(0,0,0,.2);">
+                          <div class="progress-bar" role="progressbar" 
+                              style="width: {{ (projet.currentFunding / projet.price) * 100 }}%; 
+                                      background-color: #646aa4; 
+                                      font-weight: bold;
+                                      font-size: 18px;
+                                      color: white;
+                                      text-align: center;
+                                      line-height: 30px; 
+                                      border-radius: 8px;">
+                              {{ ((projet.currentFunding / projet.price) * 100) | number_format(1) }}%
+                          </div>
+                      </div>
+                      <hr>
+                  {% endfor %}
+
+                      {% else %}
+                      <h5 class="section_heading_text">Aucun projet trouvé.</h5>
+                          <h6>Créez le vôtre et faites la différence!</h6>
+                          <a class="btn-link" href="{{ path('add_project') }}">
+                                    <h2 class="btn_text " style="color: var(--bs-primary);">Créer un Projet</h2>
+                                    <span class="btn_icon"
+                                      ><i class="fa-solid fa-arrow-up-right"></i
+                                    ></span>
+                                  </a>                     
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 mb-3">
+                  <div class="card h-100">
+                    <div class="card-body" style="max-height: 300px; overflow-y: auto;">
+                      <h5 class="item_title"><i class="fa-solid fa-box-dollar"></i> Mes Donations </h5>
+                      {% if app.user.transactions is not empty %}
+                        {% for transaction in app.user.transactions |sort((a, b) => b.createdAt|date('U') - a.createdAt|date('U')) %}
+                          {% set now = "now"|date("Y-m-d H:i:s") %}
+                          {% set createdAt = transaction.createdAt|date("Y-m-d H:i:s") %}
+                          {% set interval = (now|date('U') - createdAt|date('U'))|abs %}
+                          
+                          {% set days = interval // 86400 %}
+                          {% set months = days // 30 %}
+                          {% set remainingDays = days % 30 %}
+
+                          <div class="transaction-item mb-4" style="padding: 15px; border: 1px solid #ddd; border-radius: 10px;">
+                            <div class="d-flex justify-content-between align-items-center mb-0">
+                              <h4 class="item_title">
+                                <a href="{{ path('project_detail', {'id': transaction.investment.id}) }}">
+                                  {{ transaction.investment.name }}
+                                </a>
+                              </h4>
+                              <p>{{ transaction.price }} <i class="fa-solid fa-credit-card"></i></p>
+                            </div>
+                              <p class="text-secondary mb-0">
+                                <strong><i class="fa-solid fa-calendar-alt"></i> Date :</strong>
+                                {% if months > 0 %}
+                                  {{ ' il y a ' ~ months ~ ' mois' ~ (remainingDays > 0 ? ', ' ~ remainingDays ~ ' jours' : '') }}
+                                {% elseif days > 0 %}
+                                  {{ ' il y a ' ~ days ~ ' jour' ~ (days > 1 ? 's' : '') }}
+                                {% else %}
+                                  {{ ' aujourd\'hui' }}
+                                {% endif %}
+                              </p>
+                            <!-- Détails supplémentaires -->
+                            <details>
+                              <summary style="cursor: pointer;">Voir plus de détails</summary>
+                              <div class="row">
+                                <div class="col-md-12 col-sm-4 " style=" margin-top: 20px;">
+                                  <ul class="contact_info_list unordered_list_block">
+                                  <li>
+                                      <div class="item_icon">
+                                        <i class="fa-solid fa-calendar-days"></i>
+                                      </div>
+                                      <div class="item_content">
+                                        <h6 class="text-secondary">Date complète de la transaction</h6>
+                                        <p class="item_info mb-0">{{ transaction.createdAt|date('d F Y, H:i:s') }}</p>
+                                      </div>
+                                    </li>
+                                    <li>
+                                      <div class="item_icon">
+                                        <i class="fa-solid fa-user "></i>
+                                      </div>
+                                      <div class="item_content">
+                                        <h6 class="text-secondary">Nom du propriétaire du projet</h6>
+                                        <p class="item_info mb-0">{{ transaction.investment.user.lastName|capitalize }} {{ transaction.investment.user.firstName|capitalize }}</p>
+                                      </div>
+                                    </li>
+                                    <li>
+                                      <div class="item_icon">
+                                        <i class="fa-solid fa-credit-card"></i>
+                                      </div>
+                                      <div class="item_content">
+                                        <h6 class="text-secondary">Contribution de la donation (%)</h6>
+                                        <p class="item_info mb-0">{{ (transaction.price / transaction.investment.price * 100)|number_format(2, '.', ',')  }} %</p>
+                                      </div>
+                                    </li>
+                                  </ul>
+                                </div>
+                                
+                              </div>
+                            </details>
+                          </div>
+                          <hr>
+                        {% endfor %}
+                      {% else %}
+                        <h5 class="section_heading_text">Aucune donation effectuée.</h5>
+                        <h6>Explorez les projets et faites une différence</h6>
+                        <a class="btn-link" href="{{ path('app_projects', {'cat': 0, 'page': 1}) }}">
+                          <h2 class="btn_text" style="color: var(--bs-primary);">Soutenez un Projet</h2>
+                          <span class="btn_icon">
+                            <i class="fa-solid fa-arrow-up-right"></i>
+                          </span>
+                        </a>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}        

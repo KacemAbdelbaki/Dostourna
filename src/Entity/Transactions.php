@@ -18,13 +18,25 @@ class Transactions
 
     #[ORM\Column]
     private ?float $price = null;
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'transactions')]
     private ?User $user = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Investments $investment = null;
+ public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
 
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
     public function getId(): ?int
     {
         return $this->id;

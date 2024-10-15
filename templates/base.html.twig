@@ -321,18 +321,23 @@
                 </li>
               {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                   <!-- Profile Dropdown for Logged-in Users -->
+                  <ul class="main_menu_list unordered_list">
+                  <li>
+                  <a class="nav-link"  id="openModalBtn">
+                  <i class="fa-duotone fa-solid fa-wallet"></i> {{ app.user.balance }} <i class="fa-light fa-bitcoin-sign"></i>
+                  </a>
+                  </li>
                   <li class="nav-item dropdown">
-                      <a class="nav-link  dropdown-toggle d-flex justify-content-center items-align-center" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                          <i class="fas fa-user"></i>
+                      <a class="nav-link  dropdown-toggle d-flex justify-content-center items-align-center" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                         {{ app.user.lastName|capitalize }} {{ app.user.firstName|capitalize }}
                       </a>
                       <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                          <li><a class="dropdown-item" href="#">Edit Profile</a></li>
-                          <li><a class="dropdown-item" href="#">Change Password</a></li>
-                          <li><a class="dropdown-item" href="{{ path('app_user_logout') }}">Logout</a></li>
+                          <li><a class="dropdown-item" href="{{ path('app_user_profile')}}"><i class="fa-duotone fa-solid fa-user"></i>   Voir le profil</a></li>
+                          <li><a class="dropdown-item" href="#"><i class="fa-duotone fa-solid fa-address-card"></i>   Modifier le profil</a></li>
+                          <li><a class="dropdown-item" href="{{ path('app_user_logout') }}"><i class="fa-duotone fa-solid fa-right-from-bracket"></i>  Déconnexion</a></li>
                       </ul>
                   </li>
-                  <div class="p-3">{{ app.user.balance }}$  <button id="openModalBtn"><i class="fa-solid fa-money-bill"></i></button></div>
-
+                  </ul>
                   <div id="popupModal" class="modal">
                     <div class="modal-content">
                         <span class="close">&times;</span>
@@ -342,11 +347,11 @@
                             </div>
                             <div class="right-side">
                                 <div class="payment-container">
-                                  <input type="number" id="amount" class="card-element" placeholder="Amount" step="0.01" required>
+                                  <input type="number" id="amount" class="card-element" placeholder="Montant" step="0.01" required>
                                   <form id="payment-form" class="payment-form">
                                       <div id="card-element" class="card-element">
                                       </div>
-                                      <button id="submit" class="payment-button">Pay</button>
+                                      <button id="submit" class="payment-button">Payer</button>
                                       <div id="payment-message" class="payment-message"></div>
                                   </form>
                                 </div>
@@ -555,11 +560,11 @@
           event.preventDefault();
   
           document.getElementById('submit').disabled = true;
-          paymentMessage.textContent = "Processing payment...";
+          paymentMessage.textContent = "Payment en cours...";
   
           const amount = parseFloat(amountInput.value);
           if (isNaN(amount) || amount <= 0) {
-              paymentMessage.textContent = "Please enter a valid amount.";
+              paymentMessage.textContent = "Veuillez saisir un montant valide .";
               document.getElementById('submit').disabled = false;
               return;
           }
@@ -579,11 +584,11 @@
               if (result.error) {
                   paymentMessage.textContent = result.error.message;
               } else if (result.paymentIntent.status === 'succeeded') {
-                paymentMessage.textContent = "Payment successful! Thank you.";
+                paymentMessage.textContent = "Transaction Valide!";
                 window.location.href = '/payment-success?amount=' + amount;
               }
           } catch (error) {
-              paymentMessage.textContent = "An error occurred while processing payment.";
+              paymentMessage.textContent = "Une erreur s'est produite lors du traitement du paiement.";
               console.error(error);
           }
   

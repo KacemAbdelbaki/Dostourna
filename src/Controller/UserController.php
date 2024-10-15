@@ -28,7 +28,18 @@ class UserController extends AbstractController
     {
         throw new \LogicException('logged out');
     }
+    #[Route(path: '/profile', name: 'app_user_profile')]
+    public function profile(): Response
+    {
+        return $this->render('user/profile.html.twig', [
+            'controller_name' => 'UserController',
+            'part' => 0,
+            'title' => 'Mon Profil',
+            'titlepage' => 'Profile - ',
+            'stripe_public_key' => $this->getParameter('app.stripe_public_key'),
 
+        ]);
+    }
     #[Route('/register', name: 'app_user_register')]
     public function register(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {

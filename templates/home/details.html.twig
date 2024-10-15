@@ -35,15 +35,17 @@
                                     ><i class="fa-solid fa-pen"></i
                                 ></span>
                                 </a>
-                            {% else %}
-                    <a class="btn btn-primary" href="{{ path('add_project') }}">
-                    <span class="btn_text" data-text="Maintenant">
-                        Faire un Don
-                    </span>
-                    <span class="btn_icon">
-                        <i class="fa-regular fa-circle-dollar-to-slot"></i>
-                    </span>
-                    </a>
+                            {% elseif is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                            <a class="btn btn-primary open-modal-btn-don" 
+                                data-price="{{ projet.price }}" 
+                                data-current-funding="{{ projet.currentFunding }}"   
+                                data-project-id="{{ projet.id }}"                       
+                                style="margin-left: 20px;">
+                            <span class="btn_text"  data-text="Maintenant" >Faire Un Don</span>
+                            <span class="btn_icon"
+                                ><i class="fa-regular fa-circle-dollar-to-slot"></i
+                            ></span>
+                            </a>
                     {% endif %}
                     </div>
                 </div>
@@ -163,14 +165,16 @@
                                                                 ><i class="fa-solid fa-pen"></i
                                                             ></span>
                                                             </a>
-                                                        {% else %}
-                                                        <a class="btn btn-primary" href="{{ path('add_project') }}">
-                                                            <span class="btn_text" data-text="${projectName}">
-                                                                Faire un Don
-                                                            </span>
-                                                            <span class="btn_icon">
-                                                                <i class="fa-regular fa-circle-dollar-to-slot"></i>
-                                                            </span>
+                                                        {% elseif is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                                                        <a class="btn btn-primary open-modal-btn-don" 
+                                                            data-price="{{ projet.price }}" 
+                                                            data-current-funding="{{ projet.currentFunding }}"   
+                                                            data-project-id="{{ projet.id }}"                       
+                                                            style="margin-left: 20px;">
+                                                        <span class="btn_text"  data-text="${projectName}" >Faire Un Don</span>
+                                                        <span class="btn_icon"
+                                                            ><i class="fa-regular fa-circle-dollar-to-slot"></i
+                                                        ></span>
                                                         </a>
                                                         {% endif %}
                                                     </div>
@@ -292,5 +296,67 @@
             </div>
           </section>
 
-          
+            <div id="popupModaldon" class="modal">
+              <div class="modal-content">
+                  <span class="close">&times;</span>
+                 <div class="modal-body" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
+                      <div class="donations" style=" text-align: center;">
+                      <h2 class="donations__progress">
+                        <i class="fa-solid fa-bitcoin-sign"></i> <span class="donations__amount">{{ projet.currentFunding|number_format(2, '.', ',') }}</span> / <span class="donations__target-price">{{ projet.price|number_format(2, '.', ',') }}</span> <i class="fa-solid fa-bitcoin-sign"></i>
+                      </h2>  
+                      <div class="donations__text">
+                        Il reste encore <span class="projet_needs"> {{ (projet.price - projet.currentFunding)|number_format(2, '.', ',') }}</span> à financer pour ce projet.
+                      </div>
+                      <form class="donations__form" action="{{ path('donation_submit') }}" method="post" onsubmit="return validateForm()" name="donnationsForm">
+                         <div style="margin-bottom: 15px;">
+                        <label for="donationAmount" style="display: block; font-weight: bold; margin-bottom: 8px;">Montant à donner</label>
+                        <div style="display: flex; align-items: center; gap: 10px;  justify-content: center;">
+                        <span class="donations__input-icon"><i class="fa-solid fa-bitcoin-sign"></i></span> 
+                        <input class="donations__input" name="donationAmount" type="number" value="50" title="₿" required min="0"style="border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"/>
+                        <input type="hidden" name="projectId" class="projectId" value="{{ projet.id }}" />
+                        </div>
+                        </div>
+                         <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+                        <input type="submit" class="btn btn-secondary donations__submit" style="border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" value="Confirmer"/>
+                        <button class="btn btn-outline-primary donations__reset" style="border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">Rafraîchir</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+              </div>
+          </div>
+          <script>
+            var modaldon = document.getElementById("popupModaldon");
+            function validateForm() {
+                var donationAmount = parseFloat(document.forms["donnationsForm"]["donationAmount"].value);
+                var userBalance = {{ app.user.balance|default(0) }};
+                var price = {{ projet.price|default(0) }};
+                var currentFunding = {{ projet.currentFunding|default(0) }};
+                var maxDonation = Math.min(userBalance, price - currentFunding);
+                if (isNaN(donationAmount) || donationAmount <= 0) {
+                    alert("Veuillez entrer un montant valide supérieur à 0.");
+                    return false;
+                }
+                if (donationAmount > maxDonation) {
+                    alert("Le maximum de donation est de " + maxDonation);
+                    return false;
+                }
+                return true;
+            }
+            document.addEventListener('click', function(event) {
+                if (event.target.closest('.open-modal-btn-don')) {
+                // var btn = event.target.closest('.open-modal-btn-don');
+                    modaldon.style.display = "flex";
+                }
+            });
+            modaldon.querySelector(".close").onclick = function() {
+              document.querySelector('.donations__input').value = '50';
+                modaldon.style.display = "none";
+            };
+            // Empêcher la soumission du formulaire lors du clic sur le bouton "Rafraîchir"
+            document.querySelector(".donations__reset").onclick = function(event) {
+                event.preventDefault();
+                document.querySelector('.donations__input').value = '50';
+            };
+          </script>         
 {% endblock %}

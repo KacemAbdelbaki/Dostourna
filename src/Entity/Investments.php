@@ -47,7 +47,7 @@ class Investments
 
     #[ORM\ManyToOne(inversedBy: 'investments')]
     private ?Category $categorie = null;
-
+   
     #[ORM\Column]
     private ?float $currentFunding = 0;
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -60,6 +60,43 @@ class Investments
     
     private ?File $imageFile = null;
 
+    #[ORM\OneToMany(targetEntity: Transactions::class, mappedBy: 'investment')]
+    private Collection $transactions;
+
+    public function __construct()
+    {
+        $this->transactions = new ArrayCollection();
+    }
+    
+    /**
+     * @return Collection<int, Transactions>
+     */
+    public function getTransactions(): Collection
+    {
+        return $this->transactions;
+    }
+
+    public function addTransaction(Transactions $transaction): static
+    {
+        if (!$this->transactions->contains($transaction)) {
+            $this->transactions->add($transaction);
+            $transaction->setInvestment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransaction(Transactions $transaction): static
+    {
+        if ($this->transactions->removeElement($transaction)) {
+            // set the owning side to null (unless already changed)
+            if ($transaction->getInvestment() === $this) {
+                $transaction->setInvestment(null);
+            }
+        }
+
+        return $this;
+    }
     public function getId(): ?int
     {
         return $this->id;

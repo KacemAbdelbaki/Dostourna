@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Investments;
+use App\Entity\Transactions;
 use App\Entity\Category;
 use App\Entity\User;
 use App\Repository\InvestmentsRepository;
+use App\Repository\TransactionsRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\UserRepository;
 use App\Form\InvestmentType;
@@ -169,4 +171,26 @@ class ProjectsController extends AbstractController
             'stripe_public_key' => $this->getParameter('app.stripe_public_key'),
         ]);
     }
+    #[Route('/donnation', name: 'donation_submit')]
+    public function donate(Request $request,EntityManagerInterface $entityManager,InvestmentsRepository $invrepo,TransactionsRepository $tranrepo,UserRepository $userrepo)
+        {
+
+            $donationAmount = $request->request->get('donationAmount');
+            $projectId = $request->request->get('projectId');
+            $projet=$invrepo->find($projectId);
+            $projet->setCurrentFunding($projet->getCurrentFunding()+$donationAmount);
+            $transaction= new Transactions();
+            $transaction->setUser($this->getUser());
+            $transaction->setCreatedAt(new \DateTimeImmutable());
+            $transaction->setPrice($donationAmount);
+            $transaction->setType("mensuel");
+            $transaction->setInvestment($projet);
+            $this->getUser()->setBalance($this->getUser()->getBalance()-$donationAmount);
+            $entityManager->persist($projet);
+            $entityManager->persist($transaction);
+            $entityManager->persist($this->getUser());
+            $entityManager->flush();
+            $referer = $request->headers->get('referer');
+            return $this->redirect($referer);
+        }
 }

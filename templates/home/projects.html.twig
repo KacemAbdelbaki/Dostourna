@@ -262,7 +262,7 @@
                         <label for="donationAmount" style="display: block; font-weight: bold; margin-bottom: 8px;">Montant à donner</label>
                         <div style="display: flex; align-items: center; gap: 10px;  justify-content: center;">
                         <span class="donations__input-icon"><i class="fa-solid fa-bitcoin-sign"></i></span> 
-                        <input class="donations__input" name="donationAmount" type="number" value="50" title="₿" required min="0" style="border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"/>
+                        <input class="donations__input" name="donationAmount" type="number" value="500" title="₿" required min="0" style="border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"/>
                         <input type="hidden" name="projectId" class="projectId" value="" />
                         </div>
                         </div>
@@ -308,13 +308,13 @@
                 };
             });
             modaldon.querySelector(".close").onclick = function() {
-              document.querySelector('.donations__input').value = '50';
+              document.querySelector('.donations__input').value = '500';
                 modaldon.style.display = "none";
             };
             // Empêcher la soumission du formulaire lors du clic sur le bouton "Rafraîchir"
             document.querySelector(".donations__reset").onclick = function(event) {
                 event.preventDefault();
-                document.querySelector('.donations__input').value = '50';
+                document.querySelector('.donations__input').value = '500';
             };
             {% endif %}
           </script>      

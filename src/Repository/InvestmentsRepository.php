@@ -19,7 +19,7 @@ class InvestmentsRepository extends ServiceEntityRepository
     public function findAllSortedByFundingDifference()
     {
         return $this->createQueryBuilder('i')
-            ->orderBy('i.price - i.currentFunding', 'ASC') // Sort by the difference
+            ->orderBy('i.currentFunding / i.price ', 'DESC') // Sort by the difference
             ->addOrderBy('i.createdAt', 'DESC') // Optional: secondary sort by creation date
             ->getQuery()
             ->getResult();

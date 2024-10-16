@@ -4,7 +4,7 @@
 
 {% block body %}
 <section>
-  <div class="p-4" >
+  <div class="p-4">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-lg-12 col-xl-11">
         <div class="text-black" style="border-radius: 25px;">
@@ -12,22 +12,22 @@
             <div class="row justify-content-center">
               <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
 
-                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
+                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Inscription</p>
 
                 <form action="{{ path('app_user_register') }}" method="POST">
 
                 <div class="d-flex align-items-center">
                     <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                    <div class="gap-4 d-flex  align-items-center mb-4 flex-row flex-fill">
+                    <div class="gap-4 d-flex align-items-center mb-4 flex-row flex-fill">
                       <div class="form-outline flex-fill mb-0">
-                        <label class="form-label" for="form3Example1c">Your first name</label>
+                        <label class="form-label" for="form3Example1c">Prénom</label>
                         <div class='text-danger'></div>
-                        <input class="p-2 form-control" type="text" name="firstName" placeholder="First Name" required />
+                        <input class="p-2 form-control" type="text" name="firstName" placeholder="Prénom" required />
                       </div>
                       <div class="form-outline flex-fill mb-0">
-                        <label class="form-label" for="form3Example1c">Your last name</label>
+                        <label class="form-label" for="form3Example1c">Nom</label>
                         <div class='text-danger'></div>
-                        <input class="p-2 form-control" type="text" name="lastName" placeholder="Last Name" required />
+                        <input class="p-2 form-control" type="text" name="lastName" placeholder="Nom" required />
                       </div>
                     </div>
                   </div>
@@ -35,24 +35,24 @@
                   <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fas fa-envelope fa-lg me-3 fa-fw mt-4 pt-2"></i>
                     <div class="form-outline flex-fill mb-0">
-                      <label class="form-label" for="form3Example3c">Your email</label>
+                      <label class="form-label" for="form3Example3c">Adresse e-mail</label>
                       <div class='text-danger'></div>
-                      <input class="p-2 form-control" type="email" name="email" placeholder="E-mail Address" required />
+                      <input class="p-2 form-control" type="email" name="email" placeholder="Adresse e-mail" required />
                     </div>
                   </div>
 
                   <div class="d-flex align-items-center">
                     <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                    <div class="gap-4 d-flex  align-items-center mb-4 flex-row flex-fill">
+                    <div class="gap-4 d-flex align-items-center mb-4 flex-row flex-fill">
                       <div class="form-outline flex-fill mb-0">
-                        <label class="form-label" for="form3Example1c">Your password</label>
+                        <label class="form-label" for="form3Example1c">Mot de passe</label>
                         <div class='text-danger'></div>
-                        <input class="form-control" type="password" name="password" placeholder="Password" required />
+                        <input class="form-control" type="password" name="password" placeholder="Mot de passe" required />
                       </div>
                       <div class="form-outline flex-fill mb-0">
-                        <label class="form-label" for="form3Example1c">Repeat your password</label>
+                        <label class="form-label" for="form3Example1c">Répétez votre mot de passe</label>
                         <div class='text-danger'></div>
-                        <input class="form-control" type="password" name="Rpassword" placeholder="Repeat Password" required />
+                        <input class="form-control" type="password" name="Rpassword" placeholder="Répétez le mot de passe" required />
                       </div>
                     </div>
                   </div>
@@ -60,20 +60,20 @@
                   <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fas fa-envelope fa-lg me-3 fa-fw mt-4 pt-2"></i>
                     <div class="form-outline flex-fill mb-0">
-                      <label class="form-label" for="form3Example3c">Your phone number</label>
+                      <label class="form-label" for="form3Example3c">Numéro de téléphone</label>
                       <div class='text-danger'></div>
-                      <input class="form-control" type="number" name="phone" placeholder="Phone Number" required />
+                      <input class="form-control" type="number" name="phone" placeholder="Numéro de téléphone" required />
                     </div>
                   </div>
 
                 <div class="form-button">
-                  <button id="submit" type="submit" class="btn btn-primary btn-lg py-2 px-4">Register</button>
+                  <button id="submit" type="submit" class="btn btn-primary btn-lg py-2 px-4">S'inscrire</button>
                 </div>
               </form>
               </div>
               <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
 
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp" class="img-fluid" alt="Sample image">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp" class="img-fluid" alt="Image d'exemple">
               </div>
             </div>
           </div>
@@ -82,4 +82,5 @@
     </div>
   </div>
 </section>
+
   {% endblock %}

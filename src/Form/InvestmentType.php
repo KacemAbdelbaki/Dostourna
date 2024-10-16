@@ -21,11 +21,7 @@ class InvestmentType extends AbstractType
             ->add('name', TextType::class, [
                 'constraints' => [
                     new Assert\NotBlank(['message' => 'Le nom ne peut pas être vide.']),
-                    new Assert\Regex([
-                        'pattern' => '/^[a-zA-Z\s]+$/', // Permet seulement les lettres et les espaces
-                        'message' => 'Le nom doit contenir uniquement des lettres.',
-                        
-                    ]),
+                   
                 ],
             ])
             ->add('price', MoneyType::class, [
@@ -38,19 +34,13 @@ class InvestmentType extends AbstractType
             ->add('type', TextType::class, [
                 'constraints' => [
                     new Assert\NotBlank(['message' => 'Le type ne peut pas être vide.']),
-                    new Assert\Regex([
-                        'pattern' => '/^[a-zA-Z\s]+$/', // Permet seulement les lettres et les espaces
-                        'message' => 'Le type doit contenir uniquement des lettres.',
-                    ]),
+                    
                 ],
             ])
             ->add('description', TextType::class, [
                 'constraints' => [
                     new Assert\NotBlank(['message' => 'La description ne peut pas être vide.']),
-                    new Assert\Regex([
-                        'pattern' => '/^[a-zA-Z0-9\s]+$/', // Permet seulement les lettres, les chiffres et les espaces
-                        'message' => 'La description doit contenir uniquement des lettres et des chiffres.',
-                    ]),
+                   
                 ],
             ])
             ->add('latitude', TextType::class, [

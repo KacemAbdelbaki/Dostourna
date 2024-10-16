@@ -324,7 +324,7 @@
                   <ul class="main_menu_list unordered_list">
                   <li>
                   <a class="nav-link"  id="openModalBtn">
-                  <i class="fa-duotone fa-solid fa-wallet"></i> {{ app.user.balance }} <i class="fa-light fa-bitcoin-sign"></i>
+                  <i class="fa-duotone fa-solid fa-wallet"></i> {{ app.user.balance |number_format(2, '.', ',')}} <i class="fa-light fa-bitcoin-sign"></i>
                   </a>
                   </li>
                   <li class="nav-item dropdown">
@@ -518,7 +518,7 @@
           </div>
           <div class="copyright_widget text-center">
             <p class="copyright_text m-0">
-              <b>BinaryBots</b> © 2024 <b>DostournaChain</b> All rights reserved. 
+              <b>BinaryBots</b> © 2024 <b>DostournaChain</b>
             </p>
           </div>
         </div>

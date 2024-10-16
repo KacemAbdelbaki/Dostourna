@@ -20,7 +20,7 @@ class UserController extends AbstractController
 
         return $this->render('user/login.html.twig', [
             'controller_name' => 'UserController',
-            'part' => 1,
+            'part' => 0,
             'title' => '',
             'titlepage' => '',
             'stripe_public_key' => $this->getParameter('app.stripe_public_key'),
@@ -63,7 +63,7 @@ class UserController extends AbstractController
         }
         return $this->render('user/register.html.twig', [
             'controller_name' => 'UserController',
-            'part' => 1,
+            'part' => 0,
             'title' => '',
             'titlepage' => '',
             'stripe_public_key' => $this->getParameter('app.stripe_public_key'),

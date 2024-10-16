@@ -112,7 +112,7 @@
                                     ><i class="fa-solid fa-pen"></i
                                 ></span>
                                 </a>
-                            {% elseif is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                            {% elseif is_granted('IS_AUTHENTICATED_REMEMBERED') and projet.price > projet.currentFunding %}
                                <a class="btn-link" 
                                 id="openModalBtndon_{{ projet.id }}"
                                 data-price="{{ projet.price }}" 
@@ -144,7 +144,7 @@
                               </span>
                               </a>       
                     {% else %}
-                        <a class="btn btn-outline-secondary" href="{{ path('add_project') }}" style="width: 100%;border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); justify-content: center;">
+                        <a class="btn btn-outline-secondary" href="{{ path('app_user_login')}}" style="width: 100%;border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); justify-content: center;">
                               <span class="btn_text" data-text="Bienvenue Parmis Nous">
                                   Se connecter pour créer un projet
                               </span>

@@ -84,14 +84,25 @@
                     </div>
                    <div class=" col-sm-6"> 
                     <div class="btn_wrap pb-0">
-                       <a class="btn btn-outline-secondary" href="{{ path('add_project') }}">
-                            <span class="btn_text" data-text="votre premier pas">
-                                Participer à un Projet
-                            </span>
-                            <span class="btn_icon">
-                                <i class="fa-solid fa-arrow-up-right"></i>
-                            </span>
-                            </a>
+                                                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED')  %}
+                              <a class="btn btn-outline-secondary" href="{{ path('add_project') }}">
+                                <span class="btn_text" data-text="Un pas vers l'avenir">
+                                  Participer à un Projet
+                                </span>
+                                <span class="btn_icon">
+                                  <i class="fa-solid fa-arrow-up-right"></i>
+                                </span>
+                              </a>
+                              {% else %}
+                                <a class="btn btn-outline-secondary" href="{{ path('app_user_login')}}">
+                                <span class="btn_text" data-text="Connectez-Vous">
+                                  Participer à un Projet
+                                </span>
+                                <span class="btn_icon">
+                                  <i class="fa-solid fa-arrow-up-right"></i>
+                                </span>
+                              </a>
+                              {% endif %}
                     </div>
                     </div>
                     </div>
@@ -186,12 +197,23 @@
                     <div class="col-md-6 col-sm-6">
                       <div class="work_process_item">
                         <div class="serial_number">01</div>
-                        <a class="btn-link item_title" href="{{ path('add_project') }}">
+                       
+                          {% if is_granted('IS_AUTHENTICATED_REMEMBERED')  %}
+                             <a class="btn-link item_title" href="{{ path('add_project') }}">
                             <span class="btn_text">Soumettez votre Projet</span>
                             <span class="btn_icon"
                               ><i class="fa-solid fa-arrow-up-right"></i
                             ></span>
                           </a>
+                              {% else %}
+                               <a class="btn-link item_title"href="{{ path('app_user_login')}}">
+                            <span class="btn_text">Soumettez votre Projet</span>
+                            <span class="btn_icon"
+                              ><i class="fa-solid fa-arrow-up-right"></i
+                            ></span>
+                          </a>
+                               
+                              {% endif %}
                         <p class="mb-0">
                              Remplissez le <b>formulaire</b> sur notre site pour soumettre votre projet et demander un financement.
                         </p>
